@@ -1,2 +1,0 @@
-2,smart_panel,0,3,Others,0,3,image(svg)*,panel.svg,5,width,0
-0,2000

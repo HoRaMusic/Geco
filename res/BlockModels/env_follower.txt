@@ -1,2 +1,0 @@
-2,env_follower,0,3,Processors,0,3,name,enter_an_object_name,0,audio_in,0,4,rate,5,1,cv_out,0
-0,10

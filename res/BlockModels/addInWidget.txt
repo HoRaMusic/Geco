@@ -1,2 +1,0 @@
-2,add_in_widget,0,3,Others,0,3,file_name,widget.txt
-0,

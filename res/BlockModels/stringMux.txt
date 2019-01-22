@@ -1,2 +1,0 @@
-2,stMux:stringMux++,0,3,Others,0,3,Name,enter_a_name,0,str1,0,0,str2,0,0,str3,0,0,str4,0,0,str5,0,0,index,0,1,output,0
-0,

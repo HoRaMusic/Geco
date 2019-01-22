@@ -1,2 +1,0 @@
-2,Freq->rate:FreqToRate++,0,3,Others,0,3,name,enter_a_param_name,0,input,0,0,sampleRate,0,0,tableLength,0,1,output,0
-0,

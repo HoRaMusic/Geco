@@ -1,2 +1,0 @@
-2,plugin_setting,0,3,Others,0,3,manufacturer*/,manufacturer,3,slug*/,mySlug,3,Version,0.6,3,tags*,_TAG,3,plugin_file_name*,plugin_file_name,3,module_file_name*,module_file_name,3,module_name*,module_name,3,ID_name*,unique_ID,3,website,website_adress
-0,
