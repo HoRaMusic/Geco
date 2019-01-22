@@ -1,0 +1,38 @@
+#ifndef CANVAWRITE_H
+#define CANVASTORE_H
+#include<QVector>
+#include<QString>
+#include "customdialog.h"
+#include "controllerstore.h"
+#include <QTextStream>
+class Canvawrite
+{
+public:
+    Canvawrite();
+    void setMainModuleAttributes(QVector<QString> portVec);
+    void setControllersAttributes(QVector<QString> portVec);
+    QString getManufacturer();
+    QString getPlugin_name();
+    QString getModule_name();
+    QString getSlug();
+    QString getVersion();
+    QString getTags();
+    QString getPanel_image_name();
+    QVector<Controllerstore*> getControlVec();
+    void writeHeader();
+    void writePluginCPP();
+private:
+    QString manufacturer;
+    QString plugin_name;
+    QString module_name;
+    QString slug;
+    QString version;
+    QString tags;
+    QString panel_image_name;
+    QVector<Controllerstore*> controlVec;
+    QVector<Controllerstore*> controlVecWoDoublons;
+    QVector<QString> writedWidgetVec;
+
+};
+
+#endif // CANVASTORE_H

@@ -1,0 +1,487 @@
+#include "canvastore.h"
+#include <stdio.h>
+
+Canvawrite::Canvawrite()
+{
+
+}
+void Canvawrite::setControllersAttributes(QVector<QString> portVec)
+{
+    bool isInput_setting = false;
+    bool isOuput_setting = false;
+    bool isKnob_setting = false;
+    bool isSwitch_setting = false;
+    bool isRotarySwitch_setting = false;
+    bool isLed_setting = false;
+    bool isButton_setting = false;
+    bool isScrew_setting = false;
+    for (int i = 0; i < portVec.size(); i++)
+    {
+        if (portVec.at(i) == "led")
+        {
+            isLed_setting = true;
+        }
+        else if (portVec.at(i) == "knob")
+        {
+            isKnob_setting = true;
+        }
+        else if (portVec.at(i) == "button")
+        {
+            isButton_setting = true;
+        }
+        else if (portVec.at(i) == "switch")
+        {
+            isSwitch_setting = true;
+        }
+        else if (portVec.at(i) == "rotary_switch")
+        {
+            isRotarySwitch_setting = true;
+        }
+        else if (portVec.at(i) == "input")
+        {
+            isInput_setting = true;
+        }
+        else if (portVec.at(i) == "output")
+        {
+            isOuput_setting = true;
+        }
+        else if (portVec.at(i) == "screw")
+        {
+            isScrew_setting = true;
+        }
+    }
+    if (isScrew_setting == true)
+    {
+        QString autoPos = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        QString image_name = portVec.at(6);
+        Controllerstore *controlSetting = new Controllerstore("screw", autoPos, controller_name, image_name, "0", "0", "0", "0", ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    else if (isLed_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = "0";
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        QString image_name = portVec.at(6);
+
+        if (portVec.at(8) == "1")
+        {
+            if (portVec.at(7) == "Red")
+            {
+                controller_name = "ModuleLightWidget::create<TinyLight<RedLight>";
+            }
+            if (portVec.at(7) == "Yellow")
+            {
+                controller_name = "ModuleLightWidget::create<TinyLight<YellowLight>";
+            }
+            if (portVec.at(7) == "Blue")
+            {
+                controller_name = "ModuleLightWidget::create<TinyLight<BlueLight>";
+            }
+            if (portVec.at(7) == "Green")
+            {
+                controller_name = "ModuleLightWidget::create<TinyLight<GreenLight>";
+            }
+        }
+        if (portVec.at(8) == "2")
+        {
+            if (portVec.at(7) == "Red")
+            {
+                controller_name = "ModuleLightWidget::create<SmallLight<RedLight>";
+            }
+            if (portVec.at(7) == "Yellow")
+            {
+                controller_name = "ModuleLightWidget::create<SmallLight<YellowLight>";
+            }
+            if (portVec.at(7) == "Blue")
+            {
+                controller_name = "ModuleLightWidget::create<SmallLight<BlueLight>";
+            }
+            if (portVec.at(7) == "Green")
+            {
+                controller_name = "ModuleLightWidget::create<SmallLight<GreenLight>";
+            }
+        }
+        if (portVec.at(8) == "3")
+        {
+            if (portVec.at(7) == "Red")
+            {
+                controller_name = "ModuleLightWidget::create<MediumLight<RedLight>";
+            }
+            if (portVec.at(7) == "Yellow")
+            {
+                controller_name = "ModuleLightWidget::create<MediumLight<YellowLight>";
+            }
+            if (portVec.at(7) == "Blue")
+            {
+                controller_name = "ModuleLightWidget::create<MediumLight<BlueLight>";
+            }
+            if (portVec.at(7) == "Green")
+            {
+                controller_name = "ModuleLightWidget::create<MediumLight<GreenLight>";
+            }
+        }
+        if (portVec.at(8) == "4")
+        {
+            if (portVec.at(7) == "Red")
+            {
+                controller_name = "ModuleLightWidget::create<LargeLight<RedLight>";
+            }
+            if (portVec.at(7) == "Yellow")
+            {
+                controller_name = "ModuleLightWidget::create<LargeMediumLight<YellowLight>";
+            }
+            if (portVec.at(7) == "Blue")
+            {
+                controller_name = "ModuleLightWidget::create<LargeMediumLight<BlueLight>";
+            }
+            if (portVec.at(7) == "Green")
+            {
+                controller_name = "ModuleLightWidget::create<LargeMediumLight<GreenLight>";
+            }
+        }
+        Controllerstore *controlSetting = new Controllerstore("led", param_name, controller_name, image_name, "0", "0", "0", "0", ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+
+    else if (isKnob_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString image_name = portVec.at(6);
+        QString low_value = portVec.at(7);
+        QString high_value = portVec.at(8);
+        QString default_value = portVec.at(9);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        Controllerstore *controlSetting = new Controllerstore("knob", param_name, controller_name, image_name, low_value, high_value, default_value, "0", ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    else if (isButton_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString image_name = portVec.at(6);
+        QString low_value = portVec.at(7);
+        QString high_value = portVec.at(8);
+        QString default_value = portVec.at(9);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        Controllerstore *controlSetting = new Controllerstore("button", param_name, controller_name, image_name, low_value, high_value, default_value, "0", ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    else if (isSwitch_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString image_name = portVec.at(6);
+        QString low_value = portVec.at(7);
+        QString high_value = portVec.at(8);
+        QString default_value = portVec.at(9);
+        QString switch_positions_value = portVec.at(10);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        Controllerstore *controlSetting = new Controllerstore("switch", param_name, controller_name, image_name, low_value, high_value, default_value, switch_positions_value, ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    else if (isRotarySwitch_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString image_name = portVec.at(6);
+        QString low_value = portVec.at(7);
+        QString high_value = portVec.at(8);
+        QString default_value = portVec.at(9);
+        QString switch_positions_value = portVec.at(10);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        Controllerstore *controlSetting = new Controllerstore("rotary_switch", param_name, controller_name, image_name, low_value, high_value, default_value, switch_positions_value, ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    else if (isInput_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString image_name = portVec.at(6);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        Controllerstore *controlSetting = new Controllerstore("input", param_name, controller_name, image_name, "0", "0", "0", "0", ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    else if (isOuput_setting == true)
+    {
+        QString param_name = portVec.at(4);
+        QString controller_name = portVec.at(5);
+        QString image_name = portVec.at(6);
+        QString ledXPos = portVec.at(2);
+        QString ledYPos = portVec.at(3);
+        Controllerstore *controlSetting = new Controllerstore("output", param_name, controller_name, image_name, "0", "0", "0", "0", ledXPos, ledYPos);
+        controlVec.append(controlSetting);
+    }
+    CustomDialog d("menu");
+    for (int i = 0 ; i<controlVec.size(); i++)
+    {
+        Controllerstore *control_setting;
+        control_setting = controlVec.at(i);
+        QString paramName = control_setting->param_name();
+        QString typeName = control_setting->type();
+        d.addLabel(typeName);
+        d.addLabel(paramName);
+    }
+    d.exec();
+}
+
+
+void Canvawrite::setMainModuleAttributes(QVector<QString> portVec)
+{
+    bool isPlugin_setting = false;
+    bool isPanel_setting = false;
+
+
+    for (int i = 0; i < portVec.size(); i++)
+    {
+        if (portVec.at(i) == "plugin_setting")
+        {
+            isPlugin_setting = true;
+        }
+        else if (portVec.at(i) == "smart_panel")
+        {
+            isPanel_setting = true;
+        }
+    }
+   if (isPlugin_setting == true)
+   {
+       manufacturer = portVec.at(2);
+       plugin_name = portVec.at(3);
+       module_name = portVec.at(4);
+       slug = portVec.at(5);
+       version = portVec.at(6);
+       tags = portVec.at(7);
+   }
+   else if (isPanel_setting == true)
+   {
+       QString pngFileName = portVec.at(2);
+       pngFileName .truncate(pngFileName .lastIndexOf(QChar('.')));
+       panel_image_name = pngFileName ;
+   }
+}
+
+void Canvawrite::writePluginCPP()
+{
+    QString cppfilename;
+    cppfilename = plugin_name;
+    cppfilename.append(".cpp");
+    QFile fHeader(cppfilename);
+    if ( fHeader.open(QIODevice::ReadWrite) )
+    {
+        QTextStream stream( &fHeader );
+        stream << "#include \"" + plugin_name + ".hpp\"" << endl;
+        stream << "#include <math.h>" << endl;
+        stream << "Plugin *plugin;" << endl;
+        stream << "void init(rack::Plugin *p) {" << endl;
+        stream << "    plugin = p;" << endl;
+        stream << "    p->slug = \"\n" + slug + "\";" << endl;
+        stream << "#ifdef VERSION" << endl;
+        stream << "    p->version = TOSTRING(VERSION);" << endl;
+        stream << "#endif\n" << endl;
+        QStringList moduleList;
+        moduleList = module_name.split(',');
+        for (int i=0; i<moduleList.size(); i++)
+        {
+            stream << "    p->addModel(" + moduleList.at(i) +");" << endl;
+        }
+        stream << "}" << endl;
+    }
+}
+
+
+
+void Canvawrite::writeHeader()
+{
+    QString headername;
+    headername = plugin_name;
+    headername.append(".hpp");
+    QFile fHeader(headername);
+    if ( fHeader.open(QIODevice::ReadWrite) )
+    {
+        QTextStream stream( &fHeader );
+
+        stream << "#include \"rack.hpp\" \n" << endl;
+        stream << "using namespace rack;" << endl;
+        stream << "extern Plugin *plugin;" << endl;
+        QStringList moduleList;
+        moduleList = module_name.split(',');
+        for (int i=0; i<moduleList.size(); i++)
+        {
+            stream << "extern Model *model" + moduleList.at(i) +";" << endl;
+        }
+        stream << "" << endl;
+
+        for (int i = 0; i <controlVec.size(); i++)
+        {
+            Controllerstore *control_ = controlVec.at(i);
+             bool writed = false;
+            for(int j = 0; j < writedWidgetVec.size(); j++)
+            {
+                if (control_->controller_name() == writedWidgetVec.at(j))
+                {
+                    writed = true;
+                }
+            }
+            if (writed == false)
+            {
+                writedWidgetVec.append(control_->controller_name());
+                controlVecWoDoublons.append(control_);
+            }
+        }
+        for (int i = 0; i <controlVecWoDoublons.size(); i++)
+        {
+            Controllerstore *control = controlVecWoDoublons.at(i);
+
+            if (control->type() == "knob")
+            {
+                QString controlNameK = control->controller_name();
+                QString controlposXK = control->x_pos();
+                QString controlposYK = control->y_pos();
+                QString imageNameK = control->imageName();
+                imageNameK.truncate(imageNameK.lastIndexOf(QChar('.')));
+                stream << "struct " + controlNameK + " : SVGKnob{"  << endl;
+                stream << controlNameK + "() {" << endl;
+                stream << "    box.size = Vec(25, 25);" << endl; // the size won't be necessary on v1.0 PAPI
+                stream << "    minAngle = -0.75*M_PI;" << endl;
+                stream << "    maxAngle = 0.75*M_PI;" << endl;
+                stream << "    setSVG(SVG::load(assetPlugin(plugin,\"res/" + imageNameK + ".svg\")));"<< endl;
+                stream << "    SVGWidget *shadow = new SVGWidget();" << endl;
+                stream << "    shadow->setSVG(SVG::load(assetPlugin(plugin, \"res/" + imageNameK + "Shadow.svg)));" << endl;
+                stream << "    addChild(shadow);" << endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+            }
+            else if (control->type() == "input" || control->type() == "output")
+            {
+
+                QString controlNameJ = control->controller_name();
+                QString controlposXJ = control->x_pos();
+                QString controlposYJ = control->y_pos();
+                QString imageNameJ = control->imageName();
+                imageNameJ.truncate(imageNameJ.lastIndexOf(QChar('.')));
+                stream << "struct " + controlNameJ + " : SVGPort{"  << endl;
+                stream << controlNameJ + "() {" << endl;
+                stream << "    background->svg = SVG::load(assetPlugin(plugin,\"res/" + imageNameJ + ".svg\"));"<< endl;
+                stream << "    background->wrap();" << endl;
+                stream << "    box.size = background->box.size;" << endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+            }
+            else if (control->type() == "button")
+            {
+                QString controlNameB = control->controller_name();
+                QString controlposXB = control->x_pos();
+                QString controlposYB = control->y_pos();
+                QString imageNameB = control->imageName();
+                imageNameB.truncate(imageNameB.lastIndexOf(QChar('.')));
+                stream << "struct " + controlNameB + " : SVGSwitch, MomentarySwitch {"  << endl;
+                stream << "    addFrame(SVG::load(assetPlugin(plugin,\"res/" + imageNameB + ".svg\")));"<< endl;
+                stream << "    addFrame(SVG::load(assetPlugin(plugin,\"res/" + imageNameB + "Pushed.svg\")));"<< endl;
+                stream << "    sw->wrap();"  << endl;
+                stream << "    box.size = sw->box.size;"  << endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+            }
+            else if (control->type() == "switch")
+            {
+                QString controlNameS = control->controller_name();
+                QString controlposXS = control->x_pos();
+                QString controlposYS = control->y_pos();
+                QString imageNameS = control->imageName();
+                QString positionsS = control->switch_positions();
+                imageNameS.truncate(imageNameS.lastIndexOf(QChar('.')));
+                stream << "struct " + controlNameS + " : SVGSwitch, ToggleSwitch {"  << endl;
+                for (int p = 0; p < positionsS.toInt() ; p++)
+                {
+                    stream << "    addFrame(SVG::load(assetPlugin(plugin,\"res/" + imageNameS + "-" + QString::number(p) + ".svg\")));"<< endl;
+                }
+                stream << "    sw->wrap();"  << endl;
+                stream << "    box.size = sw->box.size;"  << endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+            }
+            else if (control->type() == "rotary_switch")
+            {
+                QString controlNameRS = control->controller_name();
+                QString controlposXRS = control->x_pos();
+                QString controlposYRS = control->y_pos();
+                QString imageNameRS = control->imageName();
+                imageNameRS.truncate(imageNameRS.lastIndexOf(QChar('.')));
+                stream << "struct " + controlNameRS + " : SVGKnob{"  << endl;
+                stream << controlNameRS + "() {" << endl;
+                stream << "    box.size = Vec(25, 25);" << endl; // the size won't be necessary on v1.0 PAPI
+                stream << "    minAngle = -0.75*M_PI;" << endl;
+                stream << "    maxAngle = 0.75*M_PI;" << endl;
+                stream << "    setSVG(SVG::load(assetPlugin(plugin,\"res/" + imageNameRS + ".svg\")));"<< endl;
+                stream << "    SVGWidget *shadow = new SVGWidget();" << endl;
+                stream << "    shadow->setSVG(SVG::load(assetPlugin(plugin, \"res/" + imageNameRS + "Shadow.svg)));" << endl;
+                stream << "    addChild(shadow);" << endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+                stream << "struct " + controlNameRS + "_snap : SVGKnob{"  << endl;
+                stream << "    " + controlNameRS + "_snap() {" << endl;
+                stream << "    snap = true;"<< endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+            }
+            else if (control->type() == "screw")
+            {
+                QString controlNameSc = control->controller_name();
+                QString controlposXSc = control->x_pos();
+                QString controlposYSc = control->y_pos();
+                QString imageNameSc = control->imageName();
+                imageNameSc.truncate(imageNameSc.lastIndexOf(QChar('.')));
+                stream << "struct " + controlNameSc + " : SVGScrew {"  << endl;
+                stream << controlNameSc + "() {" << endl;
+                stream << "    sw->svg = SVG::load(assetPlugin(plugin,\"res/" + imageNameSc + ".svg\"));"<< endl;
+                stream << "    sw->wrap();" << endl;
+                stream << "    box.size = sw->box.size;" << endl;
+                stream << "    }" << endl;
+                stream << "};" << endl;
+            }
+        }
+    }
+}
+
+QString Canvawrite::getManufacturer()
+{
+    return manufacturer;
+}
+QString Canvawrite::getPlugin_name()
+{
+    return plugin_name;
+}
+QString Canvawrite::getModule_name()
+{
+    return module_name;
+}
+QString Canvawrite::getSlug()
+{
+    return slug;
+}
+QString Canvawrite::getVersion()
+{
+    return version;
+}
+QString Canvawrite::getTags()
+{
+    return tags;
+}
+QString Canvawrite::getPanel_image_name()
+{
+    return panel_image_name;
+}
+QVector<Controllerstore*> Canvawrite::getControlVec()
+{
+    return controlVec;
+}

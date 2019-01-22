@@ -1,0 +1,2 @@
+2,Multi_filter:VultEngine,0,3,Processors,0,3,name,enter_a_param_name,0,input,0,0,freq_cv,0,0,reso_cv,0,0,mode,0LP_1HP_2BP,1,out,0
+0,

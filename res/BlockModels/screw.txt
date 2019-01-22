@@ -1,0 +1,2 @@
+2,screw,0,3,Controllers,0,3,screw_name,enter_screw_name,3,name/,screw,3,image(svg),screw.svg
+0,
