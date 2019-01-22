@@ -2,7 +2,7 @@
 VCV plugin Maker
 
 BUILD: 
-Add these files into a folder named "geco"
+Add these files into a folder named "qnodeseditor"
 Use Qt 5.6 to build the project.
 
 TEST:
