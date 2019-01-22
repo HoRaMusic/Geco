@@ -1,6 +1,6 @@
-#include "canvawrite.h"
+#include "Headers/canvawrite.h"
 #include <stdio.h>
-#include "modulecanvawriter.h"
+#include "Headers/modulecanvawriter.h"
 Canvawrite::Canvawrite(QString _plugDir)
 {
     plugDir = _plugDir;

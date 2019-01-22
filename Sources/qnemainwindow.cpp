@@ -23,19 +23,19 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include "qnemainwindow.h"
-#include "ui_qnemainwindow.h"
-#include "qneblock.h"
-#include "qnodeseditor.h"
-#include "paneleditor.h"
+#include "Headers/qnemainwindow.h"
+#include "Headers/ui_qnemainwindow.h"
+#include "Headers/qneblock.h"
+#include "Headers/qnodeseditor.h"
+#include "Headers/paneleditor.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QFileDialog>
-#include "qneport.h"
-#include "panel.h"
-#include "controller.h"
-#include "property.h"
-#include "paneleditor.h"
+#include "Headers/qneport.h"
+#include "Headers/panel.h"
+#include "Headers/controller.h"
+#include "Headers/property.h"
+#include "Headers/paneleditor.h"
 #include <QGraphicsSvgItem>
 
 QNEMainWindow::QNEMainWindow(QWidget *parent) :

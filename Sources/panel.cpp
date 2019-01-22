@@ -1,4 +1,4 @@
-#include "panel.h"
+#include "Headers/panel.h"
 #include <QGraphicsScene>
 
 Panel::Panel(QGraphicsItem *parent) : QGraphicsPathItem(parent)

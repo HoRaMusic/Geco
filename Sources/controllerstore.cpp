@@ -1,4 +1,4 @@
-#include "controllerstore.h"
+#include "Headers/controllerstore.h"
 
 Controllerstore::Controllerstore(QString type_, QString param_name_, QString controller_name_, QString imageName_, QString low_value_,
                                  QString high_value_, QString default_value_, QString x_pos_, QString y_pos_, QString shadowImageName_)

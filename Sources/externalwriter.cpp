@@ -1,4 +1,4 @@
-#include "externalwriter.h"
+#include "Headers/externalwriter.h"
 
 ExternalWriter::ExternalWriter(QString _plugDir)
 {

@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include <QtWidgets>
 #include <QApplication>
-#include "qnemainwindow.h"
+#include "Headers/qnemainwindow.h"
 #define STRING 0
 #define FLOAT 1
 #define INTEGER 2

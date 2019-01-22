@@ -1,4 +1,4 @@
-#include "controller.h"
+#include "Headers/controller.h"
 #include <QGraphicsScene>
 
 Controller::Controller(QGraphicsItem *parent): QGraphicsPathItem(parent)

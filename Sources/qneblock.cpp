@@ -23,18 +23,18 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include "qneblock.h"
+#include "Headers/qneblock.h"
 
 #include <QPen>
 #include <QGraphicsScene>
 #include <QFontMetrics>
 #include <QPainter>
-#include "qneport.h"
-#include "property.h"
-#include "customdialog.h"
-#include "customlineedit.h"
-#include "customspinbox.h"
-#include "customspinboxf.h"
+#include "Headers/qneport.h"
+#include "Headers/property.h"
+#include "Headers/customdialog.h"
+#include "Headers/customlineedit.h"
+#include "Headers/customspinbox.h"
+#include "Headers/customspinboxf.h"
 #include <QColor>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>

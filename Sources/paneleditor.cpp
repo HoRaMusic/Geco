@@ -1,5 +1,5 @@
 
-#include "paneleditor.h"
+#include "Headers/paneleditor.h"
 #include <QGraphicsScene>
 #include <QEvent>
 #include <QKeyEvent>

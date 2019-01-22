@@ -1,5 +1,5 @@
 
-#include "blockfilereader.h"
+#include "Headers/blockfilereader.h"
 
 FileReader::FileReader()
     : QFile()

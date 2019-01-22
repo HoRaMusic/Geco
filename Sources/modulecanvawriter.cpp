@@ -1,4 +1,4 @@
-#include "modulecanvawriter.h"
+#include "Headers/modulecanvawriter.h"
 #include <QDir>
 ModuleCanvaWriter::ModuleCanvaWriter(QString module_name, QString plugin_file_name, QString _plugDir)
 {

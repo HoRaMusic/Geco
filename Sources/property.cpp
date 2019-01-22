@@ -1,4 +1,4 @@
-#include "property.h"
+#include "Headers/property.h"
 
 Property::Property(QString _name, int _type, float _minValue, float _maxValue)
 {

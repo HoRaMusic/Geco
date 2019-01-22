@@ -23,16 +23,16 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include "qnodeseditor.h"
+#include "Headers/qnodeseditor.h"
 
 #include <QGraphicsScene>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
-#include "qneport.h"
-#include "qneconnection.h"
-#include "qneblock.h"
+#include "Headers/qneport.h"
+#include "Headers/qneconnection.h"
+#include "Headers/qneblock.h"
 
 QNodesEditor::QNodesEditor(QObject *parent) :
     QObject(parent)
