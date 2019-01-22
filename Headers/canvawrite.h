@@ -2,8 +2,8 @@
 #define CANVAWRITE_H
 #include<QVector>
 #include<QString>
-#include "customdialog.h"
-#include "controllerstore.h"
+#include "Headers/customdialog.h"
+#include "Headers/controllerstore.h"
 #include <QTextStream>
 
 class Canvawrite

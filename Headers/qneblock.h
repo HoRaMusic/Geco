@@ -30,8 +30,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QSpinBox>
 #include <QVector>
 #include <QGraphicsProxyWidget>
-#include "property.h"
-#include "customdialog.h"
+#include "Headers/property.h"
+#include "Headers/customdialog.h"
 
 class QNEPort;
 

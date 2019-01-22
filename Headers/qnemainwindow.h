@@ -32,12 +32,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QImage>
-#include "qneblock.h"
-#include "blockfilereader.h"
-#include "blockmodel.h"
-#include "customdialog.h"
-#include "externalwriter.h"
-#include "stepwriter.h"
+#include "Headers/qneblock.h"
+#include "Headers/blockfilereader.h"
+#include "Headers/blockmodel.h"
+#include "Headers/customdialog.h"
+#include "Headers/externalwriter.h"
+#include "Headers/stepwriter.h"
 
 
 

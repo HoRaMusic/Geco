@@ -1,10 +1,10 @@
 #ifndef STEPWRITER_H
 #define STEPWRITER_H
 #include <QString>
-#include "qneblock.h"
-#include "qneport.h"
-#include "qneconnection.h"
-#include "customdialog.h"
+#include "Headers/qneblock.h"
+#include "Headers/qneport.h"
+#include "Headers/qneconnection.h"
+#include "Headers/customdialog.h"
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsItem>

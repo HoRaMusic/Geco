@@ -3,7 +3,7 @@
 #include <QDoubleSpinBox>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include "qneblock.h"
+#include "Headers/qneblock.h"
 class CustomSpinBoxF : public QDoubleSpinBox
 {
     Q_OBJECT

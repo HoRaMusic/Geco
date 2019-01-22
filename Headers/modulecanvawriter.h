@@ -1,6 +1,6 @@
 #ifndef MODULECANVAWRITER_H
 #define MODULECANVAWRITER_H
-#include "controllerstore.h"
+#include "Headers/controllerstore.h"
 #include<QFile>
 #include<QTextStream>
 #include <QVector>

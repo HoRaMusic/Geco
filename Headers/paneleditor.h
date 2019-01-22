@@ -1,10 +1,10 @@
 #ifndef PANELEDITOR_H
 #define PANELEDITOR_H
-#include "panel.h"
+#include "Headers/panel.h"
 #include <QObject>
 #include <QPushButton>
-#include <qneblock.h>
-#include <qneport.h>
+#include <Headers/qneblock.h>
+#include <Headers/qneport.h>
 class QGraphicsScene;
 class QGraphicsItem;
 class QPointF;
