@@ -625,22 +625,22 @@ void StepWriter::fillStepFunction()
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".cpp" ).exists())
         {
             QString newVultCPPFilePath = plugDir + "/"+ plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".cpp";
-            QFile::copy("VultEngines/" + vultEngines.at(i) + ".cpp", newVultCPPFilePath);
+            QFile::copy("../VultEngines/" + vultEngines.at(i) + ".cpp", newVultCPPFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".h" ).exists())
         {
             QString newVultHeaderFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".h";
-            QFile::copy("VultEngines/" + vultEngines.at(i) + ".h", newVultHeaderFilePath);
+            QFile::copy("../VultEngines/" + vultEngines.at(i) + ".h", newVultHeaderFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.c" ).exists())
         {
             QString newVultinCPPFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.c";
-            QFile::copy("VultEngines/vultin.c", newVultinCPPFilePath);
+            QFile::copy("../VultEngines/vultin.c", newVultinCPPFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.h" ).exists())
         {
             QString newVultinHeaderFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.h";
-            QFile::copy("VultEngines/vultin.h", newVultinHeaderFilePath);
+            QFile::copy("../VultEngines/vultin.h", newVultinHeaderFilePath);
         }
     }    
     for(int i = 0 ; i < extClasses.size(); i ++)
@@ -648,12 +648,12 @@ void StepWriter::fillStepFunction()
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + extClasses.at(i) + ".cpp" ).exists())
         {
             QString newExtClassCPPFilePath = plugDir + "/"+ plugin_File_name + "/" + "src/" + extClasses.at(i) + ".cpp";
-            QFile::copy("Classes/" + extClasses.at(i) + ".cpp", newExtClassCPPFilePath);
+            QFile::copy("../Classes/" + extClasses.at(i) + ".cpp", newExtClassCPPFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + extClasses.at(i) + ".h" ).exists())
         {
             QString newVultHeaderFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + extClasses.at(i) + ".h";
-            QFile::copy("Classes/" + extClasses.at(i) + ".h", newVultHeaderFilePath);
+            QFile::copy("../Classes/" + extClasses.at(i) + ".h", newVultHeaderFilePath);
         }
     }
     for(int i = 0 ; i < waveTables.size(); i ++)
@@ -663,7 +663,7 @@ void StepWriter::fillStepFunction()
             QString tableName = "";
             tableName =  waveTables.at(i);
             QString newTableFilePath = plugDir + "/"+ plugin_File_name + "/" + "res/" + tableName;
-            QFile::copy("WaveTables/" + tableName, newTableFilePath);
+            QFile::copy("../WaveTables/" + tableName, newTableFilePath);
             QString gg = newTableFilePath;
             QByteArray s = "rrrrrr" + gg.toUtf8();
             qDebug(s);

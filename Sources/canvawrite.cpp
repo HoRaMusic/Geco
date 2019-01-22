@@ -569,7 +569,7 @@ void Canvawrite::transferImageFiles()
     if (!QFile(plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name).exists())
     {
         QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name + ".svg";
-        QFile::copy("Images/" + panel_image_name + ".svg", newImagePath);
+        QFile::copy("../Images/" + panel_image_name + ".svg", newImagePath);
     }
     for (int i = 0; i <controlVecWoDoublons.size(); i++)
     {
@@ -617,7 +617,7 @@ void Canvawrite::transferImageFiles()
         {
             fontFileTransfered = true;
             QString newFontPath = plugDir + "/" + plugin_file_name + "/" + "res/" + shadow_imageTotransfered_name;
-            QFile::copy("Fonts/" + shadow_imageTotransfered_name, newFontPath);
+            QFile::copy("../Fonts/" + shadow_imageTotransfered_name, newFontPath);
 
         }
         if (!QFile(plugDir + "/" + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name).exists())
@@ -628,31 +628,31 @@ void Canvawrite::transferImageFiles()
                 for (int k = 0; k < posN; k++)
                 {
                     QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + cutSwitchName + "_" + QString::number(k) + ".svg";
-                    QFile::copy("Images/" + cutSwitchName + "_" + QString::number(k) + ".svg", newImagePath);
+                    QFile::copy("../Images/" + cutSwitchName + "_" + QString::number(k) + ".svg", newImagePath);
                 }
             }
             else if (controllerType == "button")
             {
                 QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name;
-                QFile::copy("Images/" + imageTotransfered_name, newImagePath);
+                QFile::copy("../Images/" + imageTotransfered_name, newImagePath);
                 QString newPushedImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageNameB + "Pushed.svg";
-                QFile::copy("Images/" + imageNameB + "Pushed.svg", newPushedImagePath);
+                QFile::copy("../Images/" + imageNameB + "Pushed.svg", newPushedImagePath);
             }
             else
             {
                 QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name;
-                QFile::copy("Images/" + imageTotransfered_name, newImagePath);
+                QFile::copy("../Images/" + imageTotransfered_name, newImagePath);
             }
         }
         if (!QFile(plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name + ".svg").exists())
         {
             QString newPanelImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name + ".svg";
-            QFile::copy("Images/" + panel_image_name + ".svg", newPanelImagePath);
+            QFile::copy("../Images/" + panel_image_name + ".svg", newPanelImagePath);
         }
         if (!QFile(plugDir + "/" + plugin_file_name + "/" + "res/" + shadow_imageTotransfered_name).exists() && shadow_imageTotransfered_name != "0")
         {
             QString newShadowImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + shadow_imageTotransfered_name;
-            QFile::copy("Images/" + shadow_imageTotransfered_name, newShadowImagePath);
+            QFile::copy("../Images/" + shadow_imageTotransfered_name, newShadowImagePath);
         }
     }
 }

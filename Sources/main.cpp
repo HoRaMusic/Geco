@@ -40,12 +40,12 @@ int main(int argc, char *argv[])
     QNEMainWindow w;
     w.setStyleSheet("QMenu:{ background-color: black; }");
     //w.show();
-    QFile File("QTDark.stylesheet");
+    QFile File("../QTDark.stylesheet");
     File.open(QFile::ReadOnly);
     QString StyleSheet = QLatin1String(File.readAll());
     a.setStyleSheet(StyleSheet);
     QRect rec = QApplication::desktop()->screenGeometry();
-    w.setWindowIcon(QIcon("icon.png"));
+    w.setWindowIcon(QIcon("../icon.png"));
     w.setMinimumHeight(rec.height());
     w.setMinimumWidth(rec.width()/2);
     w.showMaximized();

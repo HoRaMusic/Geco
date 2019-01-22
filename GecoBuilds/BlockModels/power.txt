@@ -1,0 +1,2 @@
+2,x_to_the_y(power),0,3,Maths,0,0,x,0,0,y,0,1,result,0
+0,
