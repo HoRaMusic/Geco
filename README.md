@@ -21,7 +21,7 @@ TEST:
 - Open the other exmaples and export each, check the box on the dialog box that ask you if you wish to add it to the existing plugin.
 - Compile the created plugin and test it in VCV (Hora->waveosc, buffer, miniseq, LPVCF).
 
-RELEASE/DEPLOY ON WINDOWS
+RELEASE/DEPLOY ON WINDOWS:
 
 On final release the windows deploy can be automated by this build setting: 
 
