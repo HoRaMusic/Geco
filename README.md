@@ -4,10 +4,10 @@ VCV plugin Maker
 IMPORTANT: 
 Uncomment the matching line to build the free or full version in "Soures/qnemainwindow.h" line 45 :
 
-´´´
+```
 #define VERSION 1 // uncomment for full version
 //#define VERSION 0 // uncomment for free version
-´´´
+```
 
 BUILD: 
 
