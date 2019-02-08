@@ -38,7 +38,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "Headers/customdialog.h"
 #include "Headers/externalwriter.h"
 #include "Headers/stepwriter.h"
+#define LIGHT 0
+#define FULL 1
 
+#define VERSION 1 // uncomment for full version
+//#define VERSION 0 // uncomment for free version
 
 
 class QNodesEditor;

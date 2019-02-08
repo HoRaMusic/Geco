@@ -452,50 +452,24 @@ void QNEMainWindow::duplicate()
 }
 void QNEMainWindow::exportCode()
 {
-    QString plugDir = QFileDialog::getExistingDirectory();
-    if (plugDir.isEmpty())
-        return;
-    loadControllerParamVec();
-
-    bool exaustiveProject =false;
-    int conditions = 0;
-    int controllerBlockN = 0;
-    foreach(QGraphicsItem *item, nodes_editor_scene->items())
+    int numberOfController = 0;
+    foreach(QGraphicsItem *pitem, panel_editor_scene->items())
     {
-        if (item->type() == QNEBlock::Type)
-        {
-            foreach(QGraphicsItem *port_, item->childItems())
+            if (pitem->toolTip() != "panel")
             {
-                 QNEPort *port = (QNEPort*) port_;
-                 QString pName = port->portName();
-
-                 if (pName == "smart_panel" || pName == "plugin_setting")
-                 {
-                     conditions++;
-                 }
-
-                 if (pName == "Controllers" || pName == "I/O")
-                 {
-                     controllerBlockN++;
-                 }
+                numberOfController ++;
             }
-        }
     }
+    if (numberOfController < 8 || VERSION == FULL)
+    {
+        QString plugDir = QFileDialog::getExistingDirectory();
+        if (plugDir.isEmpty())
+            return;
+        loadControllerParamVec();
 
-    if (panelControllerParams.size() >= controllerBlockN + 4)
-    {
-        conditions++;
-    }
-    if (conditions >= 3)
-    {
-        exaustiveProject =true;
-    }
-    if (exaustiveProject == true)
-    {
-        canWriter = new Canvawrite(plugDir);
-        extWriter = new ExternalWriter(plugDir);
-        stepWriter = new StepWriter();
-
+        bool exaustiveProject =false;
+        int conditions = 0;
+        int controllerBlockN = 0;
         foreach(QGraphicsItem *item, nodes_editor_scene->items())
         {
             if (item->type() == QNEBlock::Type)
@@ -504,192 +478,253 @@ void QNEMainWindow::exportCode()
                 {
                      QNEPort *port = (QNEPort*) port_;
                      QString pName = port->portName();
-                     if (pName.contains("/") && pName != "I/O" && pName != "(x/y)")
+
+                     if (pName == "smart_panel" || pName == "plugin_setting")
                      {
-                         pName = pName.left(pName.size() - 1);
+                         conditions++;
                      }
-                     //int x = portVec.size();
-                     //QString gg = QString::number(x);
-                     QString gg = pName;
-                     QByteArray s = gg.toUtf8();
-                     qDebug(s);
-                     foreach(QGraphicsItem *pItem, panel_editor_scene->items())
+
+                     if (pName == "Controllers" || pName == "I/O")
                      {
-                         QString param_name = pItem->toolTip();
-                         param_name.truncate(param_name.lastIndexOf(QChar(',')));
-                         if (param_name == pName && param_name != "panel")
-                         {
-                                QString px = QString::number(pItem->scenePos().x());
-                                QString py = QString::number(pItem->scenePos().y());
-                                portVec.append(px);
-                                portVec.append(py);
-                         }
+                         controllerBlockN++;
                      }
-                     portVec.append(pName);
                 }
-
-                canWriter->setMainModuleAttributes(portVec);
-                canWriter->setControllersAttributes(portVec);
-
-            }
-
-            for (int i = 0; i <portVec.size();  i++)
-            {
-               //portVec.erase(portVec.begin()+i);
-               portVec.remove(i);
             }
         }
 
-        canWriter->writeHeader();
-        canWriter->writePluginCPP();
-        canWriter->writeModuleCanva();
-        foreach(QGraphicsItem *item_, nodes_editor_scene->items())
+        if (panelControllerParams.size() >= controllerBlockN + 4)
         {
-            if (item_->type() == QNEBlock::Type)
+            conditions++;
+        }
+        if (conditions >= 3)
+        {
+            exaustiveProject =true;
+        }
+        if (exaustiveProject == true)
+        {
+            canWriter = new Canvawrite(plugDir);
+            extWriter = new ExternalWriter(plugDir);
+            stepWriter = new StepWriter();
+
+            foreach(QGraphicsItem *item, nodes_editor_scene->items())
             {
-                foreach(QGraphicsItem *port_t, item_->childItems())
+                if (item->type() == QNEBlock::Type)
                 {
-                     QNEPort *portT = (QNEPort*) port_t;
-                     QString pNameT = portT->portName();
-                     portVec.append(pNameT);
+                    foreach(QGraphicsItem *port_, item->childItems())
+                    {
+                         QNEPort *port = (QNEPort*) port_;
+                         QString pName = port->portName();
+                         if (pName.contains("/") && pName != "I/O" && pName != "(x/y)")
+                         {
+                             pName = pName.left(pName.size() - 1);
+                         }
+                         //int x = portVec.size();
+                         //QString gg = QString::number(x);
+                         QString gg = pName;
+                         QByteArray s = gg.toUtf8();
+                         qDebug(s);
+                         foreach(QGraphicsItem *pItem, panel_editor_scene->items())
+                         {
+                             QString param_name = pItem->toolTip();
+                             param_name.truncate(param_name.lastIndexOf(QChar(',')));
+                             if (param_name == pName && param_name != "panel")
+                             {
+                                    QString px = QString::number(pItem->scenePos().x());
+                                    QString py = QString::number(pItem->scenePos().y());
+                                    portVec.append(px);
+                                    portVec.append(py);
+                             }
+                         }
+                         portVec.append(pName);
+                    }
+
+                    canWriter->setMainModuleAttributes(portVec);
+                    canWriter->setControllersAttributes(portVec);
+
+                }
+
+                for (int i = 0; i <portVec.size();  i++)
+                {
+                   //portVec.erase(portVec.begin()+i);
+                   portVec.remove(i);
                 }
             }
-            extWriter->setFiles(portVec);
-            for (int i = 0; i <portVec.size();  i++)
+
+            canWriter->writeHeader();
+            canWriter->writePluginCPP();
+            canWriter->writeModuleCanva();
+            foreach(QGraphicsItem *item_, nodes_editor_scene->items())
             {
-               //portVec.erase(portVec.begin()+i);
-               portVec.remove(i);
+                if (item_->type() == QNEBlock::Type)
+                {
+                    foreach(QGraphicsItem *port_t, item_->childItems())
+                    {
+                         QNEPort *portT = (QNEPort*) port_t;
+                         QString pNameT = portT->portName();
+                         portVec.append(pNameT);
+                    }
+                }
+                extWriter->setFiles(portVec);
+                for (int i = 0; i <portVec.size();  i++)
+                {
+                   //portVec.erase(portVec.begin()+i);
+                   portVec.remove(i);
+                }
             }
+            extWriter->writeNewFile();
+            stepWriter->fillBlockVector(nodes_editor_scene, plugDir);
+
+
+            //QVector<QNEBlock*> block_series = stepWriter->writeOutputInstructions();
+            //stepWriter->writeGenericInstructions(block_series);
+            //stepWriter->writeStepContent();
         }
-        extWriter->writeNewFile();
-        stepWriter->fillBlockVector(nodes_editor_scene, plugDir);
-
-
-        //QVector<QNEBlock*> block_series = stepWriter->writeOutputInstructions();
-        //stepWriter->writeGenericInstructions(block_series);
-        //stepWriter->writeStepContent();
+        else
+        {
+            CustomDialog d("non exaustive project", this);
+            d.addLabel("HELP:");
+            d.addLabel("It seems that your project contain 'Controllers block(s)' that aren't transfered to the 'panel editor' ");
+            d.exec();
+        }
     }
     else
     {
-        CustomDialog d("non exaustive project", this);
-        d.addLabel("HELP:");
-        d.addLabel("It seems that your project contain 'Controllers block(s)' that aren't transfered to the 'panel editor' ");
-        d.exec();
+        CustomDialog dial("Light Edition limitation:");
+        dial.addLabel("Geco Light Edition is limited to 5 controllers (screen is perceived as 2 controllers)");
+        dial.exec();
     }
+
 }
 void QNEMainWindow::displayOnPanel()
 {
-    ctrl = false;
-    foreach(QGraphicsItem *item, nodes_editor_scene->items())
+    int numberOfController = 0;
+    foreach(QGraphicsItem *pitem, panel_editor_scene->items())
     {
-        QNEBlock *BL = (QNEBlock*) item;
-        bool isPanel = false;
-        bool isController = false;
-        bool isScreen = false;
-        bool isNamed = false;
-        int portIndex = 0;
-        QString param_name = "";
-        if (item->isSelected())
+         if (pitem->toolTip() != "panel")
+         {
+             numberOfController ++;
+         }
+    }
+    if (numberOfController < 8 || VERSION == FULL)
+    {
+        ctrl = false;
+        foreach(QGraphicsItem *item, nodes_editor_scene->items())
         {
-            foreach(QGraphicsItem *port_, item->childItems())
+            QNEBlock *BL = (QNEBlock*) item;
+            bool isPanel = false;
+            bool isController = false;
+            bool isScreen = false;
+            bool isNamed = false;
+            int portIndex = 0;
+            QString param_name = "";
+            if (item->isSelected())
             {
-                if (port_->type() == QNEPort::Type)
+                foreach(QGraphicsItem *port_, item->childItems())
                 {
-                    QNEPort *port = (QNEPort*) port_;
-                    QString portName = port->portName();
-                    if (portName == "smart_panel")
+                    if (port_->type() == QNEPort::Type)
                     {
-                         isPanel = true;
+                        QNEPort *port = (QNEPort*) port_;
+                        QString portName = port->portName();
+                        if (portName == "smart_panel")
+                        {
+                             isPanel = true;
+                        }
+                        if (portName == "screen")
+                        {
+                             isScreen = true;
+                        }
+                        if (portName == "knob" || portName == "screen" ||portName == "led" || portName == "button" || portName == "switch" || portName == "rotary_switch" || portName == "module_input" || portName == "module_output"|| portName == "screw")
+                        {
+                             isController = true;
+                        }
                     }
-                    if (portName == "screen")
+                    if (isScreen == true)
                     {
-                         isScreen = true;
-                    }
-                    if (portName == "knob" || portName == "screen" ||portName == "led" || portName == "button" || portName == "switch" || portName == "rotary_switch" || portName == "module_input" || portName == "module_output"|| portName == "screw")
-                    {
-                         isController = true;
-                    }
-                }
-                if (isScreen == true)
-                {
-                    QNEPort *port = (QNEPort*) port_;
+                        QNEPort *port = (QNEPort*) port_;
 
-                        QVector<QNEPort*> ports = BL->ports();
-                        QString object_name = ports.at(5)->portName();
-                        QString size = ports.at(9)->portName();
-                        QString red = ports.at(6)->portName();
-                        QString green = ports.at(7)->portName();
-                        QString blue = ports.at(8)->portName();
-                        QByteArray s = "current font OK = " + object_name.toUtf8();
-                        qDebug(s);
-                        textFont = object_name;
-                        textSize = size;
-                        textColorR = red;
-                        textColorG = green;
-                        textColorB = blue;
-                    //textFont = "LEDCounter7.ttf";
-                }
-                if (isPanel == true && portIndex == 2)
-                {
-                    QNEPort *port = (QNEPort*) port_;
-                    selectedBlock_name = port->portName();
-                    addPanelImage(selectedBlock_name);
-                }
-                if (isController == true && portIndex == 2)
-                {
-                    QNEPort *port = (QNEPort*) port_;
-                    if (port->portName() != "enter_a_param_name" && port->portName() != "0")
-                    {
-                        param_name = port->portName();
-                        isNamed = true;
+                            QVector<QNEPort*> ports = BL->ports();
+                            QString object_name = ports.at(5)->portName();
+                            QString size = ports.at(9)->portName();
+                            QString red = ports.at(6)->portName();
+                            QString green = ports.at(7)->portName();
+                            QString blue = ports.at(8)->portName();
+                            QByteArray s = "current font OK = " + object_name.toUtf8();
+                            qDebug(s);
+                            textFont = object_name;
+                            textSize = size;
+                            textColorR = red;
+                            textColorG = green;
+                            textColorB = blue;
+                        //textFont = "LEDCounter7.ttf";
                     }
-                }
-                if (isController == true && portIndex == 4)
-                {
-                    if (isNamed == true)
+                    if (isPanel == true && portIndex == 2)
                     {
                         QNEPort *port = (QNEPort*) port_;
                         selectedBlock_name = port->portName();
-                        addControllerImage(selectedBlock_name, param_name, 0, 0);
-                        bool controlWrited = false;
-                        for( int i = 0; i < panelControllerParams.size(); i++)
+                        addPanelImage(selectedBlock_name);
+                    }
+                    if (isController == true && portIndex == 2)
+                    {
+                        QNEPort *port = (QNEPort*) port_;
+                        if (port->portName() != "enter_a_param_name" && port->portName() != "0")
                         {
-                            QVector<QString> deletedItemBuffer = paneleditor->deletedParamList();
-
-                            for (int k = 0; k <deletedItemBuffer.size(); k++)
+                            param_name = port->portName();
+                            isNamed = true;
+                        }
+                    }
+                    if (isController == true && portIndex == 4)
+                    {
+                        if (isNamed == true)
+                        {
+                            QNEPort *port = (QNEPort*) port_;
+                            selectedBlock_name = port->portName();
+                            addControllerImage(selectedBlock_name, param_name, 0, 0);
+                            bool controlWrited = false;
+                            for( int i = 0; i < panelControllerParams.size(); i++)
                             {
-                                if (panelControllerParams.at(i) == deletedItemBuffer.at(k))
+                                QVector<QString> deletedItemBuffer = paneleditor->deletedParamList();
+
+                                for (int k = 0; k <deletedItemBuffer.size(); k++)
                                 {
-                                    panelControllerParams.remove(i);
-                                    paneleditor->eraseDeletedParamList(k);
-                                    k = deletedItemBuffer.size();
+                                    if (panelControllerParams.at(i) == deletedItemBuffer.at(k))
+                                    {
+                                        panelControllerParams.remove(i);
+                                        paneleditor->eraseDeletedParamList(k);
+                                        k = deletedItemBuffer.size();
+                                    }
                                 }
                             }
-                        }
-                        for( int i = 0; i < panelControllerParams.size(); i++)
-                        {
-                            if (panelControllerParams.at(i) == param_name)
+                            for( int i = 0; i < panelControllerParams.size(); i++)
                             {
-                                controlWrited = true ;
-                            }
+                                if (panelControllerParams.at(i) == param_name)
+                                {
+                                    controlWrited = true ;
+                                }
 
+                            }
+                            if (controlWrited == false)
+                            {
+                                panelControllerParams.append(param_name);
+                                BL->IsOnPanel(true);
+                            }
                         }
-                        if (controlWrited == false)
+                        else
                         {
-                            panelControllerParams.append(param_name);
-                            BL->IsOnPanel(true);
+                            CustomDialog d("Help-", this);
+                            d.addLabel("Please enter a parameter name:");
+                            d.exec();
                         }
                     }
-                    else
-                    {
-                        CustomDialog d("Help-", this);
-                        d.addLabel("Please enter a parameter name:");
-                        d.exec();
-                    }
+                     portIndex++;
                 }
-                 portIndex++;
             }
         }
+    }
+    else
+   {
+            CustomDialog dial("Light Edition limitation:");
+            dial.addLabel("Geco Light Edition is limited to 5 controllers (screen is perceived as 2 controllers)");
+            dial.exec();
     }
 }
 
