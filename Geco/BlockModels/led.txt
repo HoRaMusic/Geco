@@ -1,0 +1,2 @@
+2,led,0,3,Controllers,0,3,param_name,enter_a_param_name,3,name/,smallLedRed,3,image(svg)/,smallLedRed.svg,3,color/,Red,5,size/,2,0,input(0-5),0
+1,3
