@@ -1,6 +1,6 @@
 
 #include "Headers/blockfilereader.h"
-
+#include <qstandardpaths.h>
 FileReader::FileReader()
     : QFile()
 {
@@ -9,8 +9,9 @@ FileReader::FileReader()
 
 QFileInfoList FileReader::detectFiles(const QString &dirName)
 {
-    QDir dir(QDir::currentPath());
-    dir.cdUp();
+    QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+    QString GecoDocLocation = docLocation + "/Geco";
+    QDir dir(GecoDocLocation);
     dir.cd(dirName);
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
     dir.setSorting(QDir::Size | QDir::Reversed);
@@ -20,8 +21,9 @@ QFileInfoList FileReader::detectFiles(const QString &dirName)
 
 QStringList FileReader::readBlockLine(const QString &fileName, const QString &dirName)
 {
-    QDir fileDir(QDir::currentPath());
-    fileDir.cdUp();
+    QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+    QString GecoDocLocation = docLocation + "/Geco";
+    QDir fileDir(GecoDocLocation);
     fileDir.cd(dirName);
     QString fileDirPath = fileDir.absoluteFilePath(fileName);
     QFile file(fileDirPath);
@@ -37,8 +39,9 @@ QStringList FileReader::readBlockLine(const QString &fileName, const QString &di
 }
 QStringList FileReader::readPropertiesLine(const QString &fileName, const QString &dirName)
 {
-    QDir fileDir(QDir::currentPath());
-    fileDir.cdUp();
+    QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+    QString GecoDocLocation = docLocation + "/Geco";
+    QDir fileDir(GecoDocLocation);
     fileDir.cd(dirName);
     QString fileDirPath = fileDir.absoluteFilePath(fileName);
     QFile file(fileDirPath);

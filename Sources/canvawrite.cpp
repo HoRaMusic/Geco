@@ -569,7 +569,11 @@ void Canvawrite::transferImageFiles()
     if (!QFile(plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name).exists())
     {
         QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name + ".svg";
-        QFile::copy("../Images/" + panel_image_name + ".svg", newImagePath);
+        QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+        QString fontLoc = docLocation + "Geco/Images/" + panel_image_name + ".svg";
+        QDir rootDir(QDir::currentPath());
+        QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+        QFile::copy(fileDirPath, newImagePath);
     }
     for (int i = 0; i <controlVecWoDoublons.size(); i++)
     {
@@ -615,9 +619,18 @@ void Canvawrite::transferImageFiles()
 
         if (controllerType == "screen" && fontFileTransfered == false)
         {
+            /*QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+            QString destinationPath= desktopPath+QDir::separator()+fileName;
+            QFile::copy(filePath, destinationPath)*/
+
+
             fontFileTransfered = true;
             QString newFontPath = plugDir + "/" + plugin_file_name + "/" + "res/" + shadow_imageTotransfered_name;
-            QFile::copy("../Fonts/" + shadow_imageTotransfered_name, newFontPath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/Fonts/"+ shadow_imageTotransfered_name;
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newFontPath);
 
         }
         if (!QFile(plugDir + "/" + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name).exists())
@@ -628,31 +641,56 @@ void Canvawrite::transferImageFiles()
                 for (int k = 0; k < posN; k++)
                 {
                     QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + cutSwitchName + "_" + QString::number(k) + ".svg";
-                    QFile::copy("../Images/" + cutSwitchName + "_" + QString::number(k) + ".svg", newImagePath);
+                    QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+                    QString fontLoc = docLocation + "Geco/Images/"+ cutSwitchName + "_" + QString::number(k) + ".svg";
+                    QDir rootDir(QDir::currentPath());
+                    QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+                    QFile::copy(fileDirPath, newImagePath);
                 }
             }
             else if (controllerType == "button")
             {
                 QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name;
-                QFile::copy("../Images/" + imageTotransfered_name, newImagePath);
+                QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+                QString fontLoc = docLocation + "Geco/Images/"+ imageTotransfered_name;
+                QDir rootDir(QDir::currentPath());
+                QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+                QFile::copy(fileDirPath, newImagePath);
                 QString newPushedImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageNameB + "Pushed.svg";
-                QFile::copy("../Images/" + imageNameB + "Pushed.svg", newPushedImagePath);
+                QString docLocation2 = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+                QString fontLoc2 = docLocation + "Geco/Images/"+ imageNameB + "Pushed.svg";
+                QDir rootDir2(QDir::currentPath());
+                QString fileDirPath2 = rootDir.relativeFilePath(fontLoc);
+                QFile::copy(fileDirPath2, newPushedImagePath);
             }
             else
             {
                 QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name;
-                QFile::copy("../Images/" + imageTotransfered_name, newImagePath);
+                QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+                QString fontLoc = docLocation + "Geco/Images/"+ imageTotransfered_name;
+                QDir rootDir(QDir::currentPath());
+                QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+                QFile::copy(fileDirPath, newImagePath);
             }
         }
         if (!QFile(plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name + ".svg").exists())
         {
             QString newPanelImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + panel_image_name + ".svg";
-            QFile::copy("../Images/" + panel_image_name + ".svg", newPanelImagePath);
+            QString newImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + imageTotransfered_name;
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/Images/"+ panel_image_name + ".svg";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newPanelImagePath);
         }
         if (!QFile(plugDir + "/" + plugin_file_name + "/" + "res/" + shadow_imageTotransfered_name).exists() && shadow_imageTotransfered_name != "0")
         {
             QString newShadowImagePath = plugDir + "/" + plugin_file_name + "/" + "res/" + shadow_imageTotransfered_name;
-            QFile::copy("../Images/" + shadow_imageTotransfered_name, newShadowImagePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/Images/"+ shadow_imageTotransfered_name;
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newShadowImagePath);
         }
     }
 }

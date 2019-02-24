@@ -625,22 +625,38 @@ void StepWriter::fillStepFunction()
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".cpp" ).exists())
         {
             QString newVultCPPFilePath = plugDir + "/"+ plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".cpp";
-            QFile::copy("../VultEngines/" + vultEngines.at(i) + ".cpp", newVultCPPFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/VultEngines/"+ vultEngines.at(i) + ".cpp";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newVultCPPFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".h" ).exists())
         {
             QString newVultHeaderFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + vultEngines.at(i) + ".h";
-            QFile::copy("../VultEngines/" + vultEngines.at(i) + ".h", newVultHeaderFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/VultEngines/"+ vultEngines.at(i) + ".h";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newVultHeaderFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.c" ).exists())
         {
             QString newVultinCPPFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.c";
-            QFile::copy("../VultEngines/vultin.c", newVultinCPPFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/VultEngines/vultin.c";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newVultinCPPFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.h" ).exists())
         {
             QString newVultinHeaderFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + "vultin.h";
-            QFile::copy("../VultEngines/vultin.h", newVultinHeaderFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/VultEngines/vultin.h";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newVultinHeaderFilePath);
         }
     }    
     for(int i = 0 ; i < extClasses.size(); i ++)
@@ -648,12 +664,20 @@ void StepWriter::fillStepFunction()
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + extClasses.at(i) + ".cpp" ).exists())
         {
             QString newExtClassCPPFilePath = plugDir + "/"+ plugin_File_name + "/" + "src/" + extClasses.at(i) + ".cpp";
-            QFile::copy("../Classes/" + extClasses.at(i) + ".cpp", newExtClassCPPFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/Classes/" + extClasses.at(i) + ".cpp";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newExtClassCPPFilePath);
         }
         if (!QFile(plugDir + "/" + plugin_File_name + "/" + "src/" + extClasses.at(i) + ".h" ).exists())
         {
             QString newVultHeaderFilePath = plugDir + "/" + plugin_File_name + "/" + "src/" + extClasses.at(i) + ".h";
-            QFile::copy("../Classes/" + extClasses.at(i) + ".h", newVultHeaderFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/Classes/" + extClasses.at(i) + ".h";
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newVultHeaderFilePath);
         }
     }
     for(int i = 0 ; i < waveTables.size(); i ++)
@@ -663,7 +687,11 @@ void StepWriter::fillStepFunction()
             QString tableName = "";
             tableName =  waveTables.at(i);
             QString newTableFilePath = plugDir + "/"+ plugin_File_name + "/" + "res/" + tableName;
-            QFile::copy("../WaveTables/" + tableName, newTableFilePath);
+            QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+            QString fontLoc = docLocation + "Geco/WaveTables/" + tableName;
+            QDir rootDir(QDir::currentPath());
+            QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+            QFile::copy(fileDirPath, newTableFilePath);
             QString gg = newTableFilePath;
             QByteArray s = "rrrrrr" + gg.toUtf8();
             qDebug(s);

@@ -1,2 +1,0 @@
-2,stringLeft:stringLeft++,0,3,Maths,0,3,Name,enter_a_name,0,string,0,0,length,0,1,output,0
-0,

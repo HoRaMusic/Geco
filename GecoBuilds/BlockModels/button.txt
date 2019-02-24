@@ -1,2 +1,0 @@
-2,button,0,3,Controllers,0,3,param_name,enter_a_param_name,3,name/,button,3,image(svg)/,button.svg,4,low_value/,0,4,high_value/,10,4,default_value/,0,1,output,0
--99999,99999,-99999,99999,-99999,99999

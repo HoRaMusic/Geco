@@ -1097,12 +1097,14 @@ void QNEMainWindow::addPanelImage(QString fileName)
            delete item;
        }
     }
-    QDir dir(QDir::currentPath());
-    dir.cd("../Images");
+    QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+    QString GecoDocLocation = docLocation + "/Geco";
+    QDir dir(GecoDocLocation);
+    dir.cd("Images");
+    QString fileDirPath = dir.absoluteFilePath(fileName);
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
     dir.setSorting(QDir::Size | QDir::Reversed);
     QFileInfoList list = dir.entryInfoList();
-    QString fileDirPath = dir.absoluteFilePath(fileName);
     Panel *p = new Panel(0);
     QGraphicsSvgItem* l = p->panItem(fileDirPath);
     float panelWidth = p->getWidth();
@@ -1149,8 +1151,11 @@ void QNEMainWindow::addControllerImage(QString fileName, QString name_, float po
            delete item;
        }
     }
-    QDir dir(QDir::currentPath());
-    dir.cd("../Images");
+
+    QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+    QString GecoDocLocation = docLocation + "/Geco";
+    QDir dir(GecoDocLocation);
+    dir.cd("Images");
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
     dir.setSorting(QDir::Size | QDir::Reversed);
     QFileInfoList list = dir.entryInfoList();
@@ -1163,13 +1168,13 @@ void QNEMainWindow::addControllerImage(QString fileName, QString name_, float po
     {
         QGraphicsTextItem* t = new QGraphicsTextItem("text example ", l);
         t->setPos(0, -10);
-        //t->setFlag(QGraphicsItem::ItemIsMovable);
-        //t->setFlag(QGraphicsItem::ItemIsSelectable);
-        //QFont font("Fonts/" + textFont );
-
-
-        QString f = "../Fonts/" + textFont;
-        int id = QFontDatabase::addApplicationFont(f);
+        QString docLocation = QStandardPaths::locate(QStandardPaths::DocumentsLocation, QString(), QStandardPaths::LocateDirectory);
+        QString fontLoc = docLocation + "Geco/Fonts/"+ textFont;
+        QDir rootDir(QDir::currentPath());
+        QString fileDirPath = rootDir.relativeFilePath(fontLoc);
+        //qDebug() << "fileDirPath:";
+        //qDebug() << fileDirPath;
+        int id = QFontDatabase::addApplicationFont(fileDirPath);
         QString family = QFontDatabase::applicationFontFamilies(id).at(0);
         QFont monospace(family);
         int r = textColorR.toInt();
