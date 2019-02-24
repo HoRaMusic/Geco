@@ -14,6 +14,8 @@ BUILD:
 
 - Add these files into a folder named "qnodeseditor"
 
+- Add the Geco folder to your documents location (win : "C:/Users/<USER>/Documents" | mac : "~/Documents")
+
 - Use Qt 5.6 to build the project:
 
 Set Qt to add ther release folder into GecoBuilds:
