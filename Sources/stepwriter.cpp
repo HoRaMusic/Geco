@@ -1919,7 +1919,7 @@ QString StepWriter::arrayInstruction(QNEBlock *currentBlock)
     {
         arraylength = 4;
         QString index = ports.at(13)->portName();
-        instruction.append("    for(int " + object_name  + "_realsize; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
+        instruction.append("    for(int " + object_name  + "_realsize = 0; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
         instruction.append("\n        if(" +object_name  + "_realsize" + "!=" + inputsSums.at(arraylength) + ")\n        {\n");
         instruction.append("            " + object_name  + "[" +  object_name  + "_realsize " + "] = " + object_name  + "_inputs[" + object_name  + "_realsize];\n        }\n");
         if (ports.at(15)->connections().size() <= 0)
@@ -1942,7 +1942,7 @@ QString StepWriter::arrayInstruction(QNEBlock *currentBlock)
     {
         arraylength = 8;
         QString index = ports.at(17)->portName();
-        instruction.append("    for(int " + object_name  + "_realsize; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
+        instruction.append("    for(int " + object_name  + "_realsize = 0; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
         instruction.append("\n        if(" +object_name  + "_realsize" + "!=" + inputsSums.at(arraylength) + ")\n        {\n");
         instruction.append("            " + object_name  + "[" +  object_name  + "_realsize " + "] = " + object_name  + "_inputs[" + object_name  + "_realsize];\n        }\n");
         if (ports.at(26)->connections().size() <= 0)
@@ -1965,7 +1965,7 @@ QString StepWriter::arrayInstruction(QNEBlock *currentBlock)
     {
         arraylength = 16;
         QString index = ports.at(24)->portName();
-        instruction.append("    for(int " + object_name  + "_realsize; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
+        instruction.append("    for(int " + object_name  + "_realsize = 0; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
         instruction.append("\n        if(" +object_name  + "_realsize" + "!=" + inputsSums.at(arraylength) + ")\n        {\n");
         instruction.append("            " + object_name  + "[" +  object_name  + "_realsize " + "] = " + object_name  + "_inputs[" + object_name  + "_realsize];\n        }\n");
         if (ports.at(27)->connections().size() <= 0)
@@ -1988,7 +1988,7 @@ QString StepWriter::arrayInstruction(QNEBlock *currentBlock)
     {
         arraylength = 32;
         QString index = ports.at(41)->portName();
-        instruction.append("    for(int " + object_name  + "_realsize; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
+        instruction.append("    for(int " + object_name  + "_realsize = 0; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
         instruction.append("\n        if(" +object_name  + "_realsize" + "!=" + inputsSums.at(arraylength) + ")\n        {\n");
         instruction.append("            " + object_name  + "[" +  object_name  + "_realsize " + "] = " + object_name  + "_inputs[" + object_name  + "_realsize];\n        }\n");
         if (ports.at(33)->connections().size() <= 0)
@@ -2011,7 +2011,7 @@ QString StepWriter::arrayInstruction(QNEBlock *currentBlock)
     {
         arraylength = 64;
         QString index = ports.at(73)->portName();
-        instruction.append("    for(int " + object_name  + "_realsize; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
+        instruction.append("    for(int " + object_name  + "_realsize = 0; " + object_name  + "_realsize < " + realSize + ";" + object_name  + "_realsize ++)\n    {");
         instruction.append("\n        if(" +object_name  + "_realsize" + "!=" + inputsSums.at(arraylength) + ")\n        {\n");
         instruction.append("            " + object_name  + "[" +  object_name  + "_realsize " + "] = " + object_name  + "_inputs[" + object_name  + "_realsize];\n        }\n");
         if (ports.at(75)->connections().size() <= 0)
@@ -2266,18 +2266,15 @@ QString StepWriter::gateToTrigInstruction(QNEBlock *currentBlock)
     }
 
     QString Wtrigged = object_name + "_wasTrigged";
-    QString gPulse = object_name + "_gatePulse";
     QString fPulse = object_name + "_pulse";
     instructions.append("    bool " + fPulse + " = false;\n");
     instructions.append("    if(" + inputsSums.at(0) + " != 0 && " + Wtrigged + " == false)\n    {\n");
     instructions.append("        " + Wtrigged + " = true;\n");
-    instructions.append("        " + gPulse + ".trigger(1e-3);\n");
-    instructions.append("        " + fPulse + " = " + gPulse + ".process(1.0 / engineGetSampleRate());\n  }\n");
+    instructions.append("        " + fPulse + " = true;\n   }");
     instructions.append("    else if( "+ inputsSums.at(0) + " == 0)"+ "\n    {\n    " + Wtrigged + " = false;\n      }\n");
     instructions.append("    float " + object_name + "_" + outputPortName + " = " + fPulse + " ? 10.0 : 0.0;\n");
-    QString instruction = instructions.at(0) + instructions.at(1) + instructions.at(2) + instructions.at(3) + instructions.at(4) + instructions.at(5) + instructions.at(6);
+    QString instruction = instructions.at(0) + instructions.at(1) + instructions.at(2) + instructions.at(3) + instructions.at(4) + instructions.at(5);
     structInstructions.append("    bool " + Wtrigged  + " = false;\n");
-    structInstructions.append("    PulseGenerator " + gPulse  + ";\n");
     return instruction;
 }
 
