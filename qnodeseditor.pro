@@ -54,3 +54,8 @@ HEADERS  += Headers/qnemainwindow.h \
     Headers/customspinbox.h \
     Headers/customspinboxf.h
 
+RESOURCES += \
+    Resources/resources.qrc
+
+
+
