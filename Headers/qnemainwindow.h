@@ -41,8 +41,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define LIGHT 0
 #define FULL 1
 
-#define VERSION 1 // uncomment for full version
-//#define VERSION 0 // uncomment for free version
+//#define VERSION 1 // uncomment for full version
+#define VERSION 0 // uncomment for free version
 
 
 class QNodesEditor;
@@ -80,6 +80,7 @@ private slots:
     void loadControllerParamVec();
     void incrementBlockID();
     void setPropVisible();
+    void setDPI();
 protected :
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -126,6 +127,7 @@ private:
     QAction* propOutAct;
     bool propVisible;
     int blockID;
+    bool dpi96;
 };
 
 #endif // QNEMAINWINDOW_H

@@ -21,23 +21,22 @@ void Paneditor::install(QGraphicsScene *s, QGraphicsScene *sNE)
     dsb_x->setValue(0);
     dsb_x->setSingleStep(0.01);
     dsb_x->setDecimals(2);
-    QGraphicsProxyWidget* pProxyWidget_x = scene->addWidget(dsb_x);
-    pProxyWidget_x->setPos(2, 380);
-    pProxyWidget_x->setToolTip("SpinBox_1");
-
     dsb_y = new QDoubleSpinBox(0);
     dsb_y->setRange(0, 1000);
     dsb_y->setValue(0);
     dsb_y->setSingleStep(0.01);
     dsb_y->setDecimals(2);
-    QGraphicsProxyWidget* pProxyWidget_y = scene->addWidget(dsb_y);
+    sendPosition = new QPushButton("&send position", 0);
+    pProxyWidget_x = scene->addWidget(dsb_x);
+    pProxyWidget_x->setPos(2, 380);
+    pProxyWidget_x->setToolTip("SpinBox_1");
+    pProxyWidget_y = scene->addWidget(dsb_y);
     pProxyWidget_y->setPos(80, 380);
     pProxyWidget_y->setToolTip("SpinBox_2");
-
-    sendPosition = new QPushButton("&send position", 0);
-    QGraphicsProxyWidget* button = scene->addWidget(sendPosition);
-    button->setPos(50, 410);
+    button = scene->addWidget(sendPosition);
+    button->setPos(50, 420);
     button->setToolTip("button");
+    //setPermanentItemsPos (false);
     connect( sendPosition, SIGNAL(clicked()), this, SLOT(setPosFromSB()));
 }
 
@@ -64,6 +63,22 @@ void Paneditor::setPosFromSB()
 QVector<QString>  Paneditor::deletedParamList()
 {
     return deletedParam;
+}
+
+void Paneditor::setPermanentItemsPos(bool dpi96)
+{
+    if (dpi96 == true)
+    {
+        pProxyWidget_x->setPos(2, 460);
+        pProxyWidget_y->setPos(80, 460);
+        button->setPos(50, 486);
+    }
+    else
+    {
+        pProxyWidget_x->setPos(2, 380);
+        pProxyWidget_y->setPos(80, 380);
+        button->setPos(50, 420);
+    }
 }
 void  Paneditor::eraseDeletedParamList(int index)
 {

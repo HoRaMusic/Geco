@@ -8,7 +8,7 @@
 class ModuleCanvaWriter
 {
 public:
-    ModuleCanvaWriter(QString module_name, QString plugin_file_name, QString _plugDir);
+    ModuleCanvaWriter(QString module_name, QString plugin_file_name, QString _plugDir, bool bigDPI);
     void writeModuleStruct(QVector<Controllerstore*> &controllerVec, QString pluginName);
     void writeStepFunctionCanva();
     void writeWidgetDeclar( QVector<Controllerstore*> &controllerVec, QString panelWidth, QString panelName, QString pluginName);
@@ -21,6 +21,7 @@ private:
     QTextStream TStream;
     QVector<Controllerstore*> paramVec;
     float PanelWidth;
+    bool dpi96;
     QString plugDir;
 };
 

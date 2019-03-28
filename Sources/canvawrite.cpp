@@ -1,9 +1,10 @@
 #include "Headers/canvawrite.h"
 #include <stdio.h>
 #include "Headers/modulecanvawriter.h"
-Canvawrite::Canvawrite(QString _plugDir)
+Canvawrite::Canvawrite(QString _plugDir, bool _bigDPI)
 {
     plugDir = _plugDir;
+    bigDPI = _bigDPI;
 }
 void Canvawrite::setControllersAttributes(QVector<QString> portVec)
 {
@@ -18,6 +19,7 @@ void Canvawrite::setControllersAttributes(QVector<QString> portVec)
     bool isScreen_setting = false;
     screenUsed = false;
     fontFileTransfered = false;
+
     for (int i = 0; i < portVec.size(); i++)
     {
         if (portVec.at(i) == "led")
@@ -418,7 +420,7 @@ void Canvawrite::writePluginCPP()
 
 void Canvawrite::writeModuleCanva()
 {
-   ModuleCanvaWriter *MCW = new  ModuleCanvaWriter(current_module_file_name, plugin_file_name, plugDir);
+   ModuleCanvaWriter *MCW = new  ModuleCanvaWriter(current_module_file_name, plugin_file_name, plugDir, bigDPI);
    MCW->writeModuleStruct(controlVec, plugin_file_name);
    MCW->writeStepFunctionCanva();
    MCW->writeWidgetDeclar(controlVec, panelWidth, panel_image_name, plugin_file_name);

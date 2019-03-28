@@ -41,6 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    dpi96 = false;
     textFont = "LEDCounter7.ttf";
     nodes_editor_scene = new QGraphicsScene();
     panel_editor_scene = new QGraphicsScene();
@@ -281,6 +282,11 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     connect(ZoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOut()));
     mainToolBar->addAction(ZoomOutAct);
 
+    const QIcon DPIsettingIcon = QIcon("../icons/dpiSetting.png");
+    QAction *setDPIAct = new QAction( DPIsettingIcon, tr("&setDPI ('r' key)"), this);
+    setDPIAct->setStatusTip(tr("set DPI - actual = 90PDI"));
+    connect(setDPIAct, SIGNAL(triggered()), this, SLOT(setDPI()));
+    mainToolBar->addAction(setDPIAct);
 
     CustomDialog dial("Object setting", this);
     for (int i = 0; i <blockModelVec.size(); i++)
@@ -362,7 +368,18 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     addBlock(s_m_Block);
     propVisible = true;
 }
-
+void QNEMainWindow::setDPI()
+{
+    if (dpi96 == true)
+    {
+        dpi96 = false;
+    }
+    else if (dpi96 == false)
+    {
+        dpi96 = true;
+    }
+    paneleditor->setPermanentItemsPos(dpi96);
+}
 QNEMainWindow::~QNEMainWindow()
 {
 
@@ -502,7 +519,7 @@ void QNEMainWindow::exportCode()
         }
         if (exaustiveProject == true)
         {
-            canWriter = new Canvawrite(plugDir);
+            canWriter = new Canvawrite(plugDir, dpi96);
             extWriter = new ExternalWriter(plugDir);
             stepWriter = new StepWriter();
 

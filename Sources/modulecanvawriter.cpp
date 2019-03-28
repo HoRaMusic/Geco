@@ -1,7 +1,8 @@
 #include "Headers/modulecanvawriter.h"
 #include <QDir>
-ModuleCanvaWriter::ModuleCanvaWriter(QString module_name, QString plugin_file_name, QString _plugDir)
+ModuleCanvaWriter::ModuleCanvaWriter(QString module_name, QString plugin_file_name, QString _plugDir, bool bigDPI)
 {
+    dpi96 = bigDPI;
     moduleName = module_name;
     moduleFilename = module_name;
     plugDir = _plugDir;
@@ -219,6 +220,15 @@ void ModuleCanvaWriter::writeWidgetDeclar(QVector<Controllerstore*> &controllerV
             TStream << "        addChild(" + displayName + ");" << endl;
             TStream << "    }" << endl;
             //TStream << "    addChild(Widget::create<" + cName + ">(Vec(" + control_->x_pos() + "," + control_->y_pos() + ")));" << endl;
+        }
+        if (dpi96 == true)
+        {
+            double xpos = xPos.toDouble();
+            double ypos = yPos.toDouble();
+            xpos = xpos/1.2;
+            ypos = ypos/1.2;
+            xPos = QString::number(xpos);
+            yPos = QString::number(ypos);
         }
         if (control_->type() == "screw")
         {
