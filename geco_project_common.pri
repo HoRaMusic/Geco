@@ -1,17 +1,8 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-04-16T14:33:05
-#
-#-------------------------------------------------
-
 QT += core gui
 QT += svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Geco
 TEMPLATE = app
-#moved here from qnemainwindow.h:
-DEFINES += VERSION=1
 
 SOURCES += Sources/main.cpp\
     Sources/qnemainwindow.cpp \

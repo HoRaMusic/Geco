@@ -41,7 +41,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define LIGHT 0
 #define FULL 1
 
-#define VERSION 1 // uncomment for full version
+// This is moved to geco.pro and geco_light.pro files
+//#define VERSION 1 // uncomment for full version
 //#define VERSION 0 // uncomment for free version
 
 
