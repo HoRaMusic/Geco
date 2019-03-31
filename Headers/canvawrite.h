@@ -9,7 +9,7 @@
 class Canvawrite
 {
 public:
-    Canvawrite(QString _plugDir);
+    Canvawrite(QString _plugDir, bool _bigDPI);
     void setMainModuleAttributes(QVector<QString> portVec);
     void setControllersAttributes(QVector<QString> portVec);
     QString getManufacturer();
@@ -47,6 +47,7 @@ private:
     QString plugDir;
     bool fontFileTransfered;
     bool screenUsed;
+    bool bigDPI;
 };
 
 #endif // CANVASTORE_H

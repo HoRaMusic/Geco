@@ -81,6 +81,7 @@ private slots:
     void loadControllerParamVec();
     void incrementBlockID();
     void setPropVisible();
+    void setDPI();
 protected :
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -127,6 +128,7 @@ private:
     QAction* propOutAct;
     bool propVisible;
     int blockID;
+    bool dpi96;
 };
 
 #endif // QNEMAINWINDOW_H

@@ -23,6 +23,7 @@ public:
     void eraseDeletedParamList(int index);
     bool eventFilter(QObject *, QEvent *);
     void eraseSelectedItem();
+    void setPermanentItemsPos(bool dpi96);
 private slots:
     void setPosFromSB();
 
@@ -36,7 +37,9 @@ private:
     QDoubleSpinBox* dsb_y;
     QPushButton* sendPosition;
     QVector<QString> deletedParam;
-
+    QGraphicsProxyWidget* pProxyWidget_x;
+    QGraphicsProxyWidget* pProxyWidget_y;
+    QGraphicsProxyWidget* button;
     // QNEBlock *selBlock;
 };
 
