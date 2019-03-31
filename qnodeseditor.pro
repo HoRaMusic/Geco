@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 QT += svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +13,7 @@ TEMPLATE = app
 
 
 SOURCES += Sources/main.cpp\
-        Sources/qnemainwindow.cpp \
+    Sources/qnemainwindow.cpp \
     Sources/qneblock.cpp \
     Sources/qneport.cpp \
     Sources/qneconnection.cpp \
@@ -56,6 +56,3 @@ HEADERS  += Headers/qnemainwindow.h \
 
 RESOURCES += \
     Resources/resources.qrc
-
-
-
