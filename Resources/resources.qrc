@@ -22,5 +22,6 @@
         <file>icons/zoomIn.png</file>
         <file>icons/zoomOut.png</file>
         <file>QTDark.stylesheet</file>
+        <file>fonts/LEDCounter7.ttf</file>
     </qresource>
 </RCC>

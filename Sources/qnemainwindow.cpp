@@ -41,7 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    textFont = "LEDCounter7.ttf";
+    textFont = ":/fonts/LEDCounter7.ttf";
     nodes_editor_scene = new QGraphicsScene();
     panel_editor_scene = new QGraphicsScene();
     loadBlocksFiles();
