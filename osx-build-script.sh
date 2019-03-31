@@ -13,8 +13,8 @@ $QTDIR/bin/qmake ../../geco.pro -config release
 make
 $QTDIR/bin/macdeployqt Geco.app -dmg
 cd ..
-mkdir light
 rm -r light
+mkdir light
 cd light
 $QTDIR/bin/qmake ../../geco_light.pro -config release
 make
