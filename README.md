@@ -39,3 +39,9 @@ On final release the windows deploy can be automated by this build setting:
 ![alt text](https://github.com/HoRaMusic/Geco/blob/master/winDeploy.png)
 
 or run "windeployqt ." command in the release folder containing your binary (gecoBuilds/release).
+
+---
+to build on OS X:
+
+run ./osx-build-script.sh
+get .dmg files in GecoBuilds/osx/

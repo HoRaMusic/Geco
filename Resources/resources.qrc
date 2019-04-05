@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/Arrays.png</file>
+        <file>icons/Comparators.png</file>
+        <file>icons/Controllers.png</file>
+        <file>icons/Counters.png</file>
+        <file>icons/deleteBlock.png</file>
+        <file>icons/deleteController.png</file>
+        <file>icons/displayController.png</file>
+        <file>icons/dupplicate.png</file>
+        <file>icons/export.png</file>
+        <file>icons/Generators.png</file>
+        <file>icons/Jacks.png</file>
+        <file>icons/load.png</file>
+        <file>icons/Maths.png</file>
+        <file>icons/Numbers.png</file>
+        <file>icons/Others.png</file>
+        <file>icons/Processors.png</file>
+        <file>icons/propUnvisible.png</file>
+        <file>icons/propVisible.png</file>
+        <file>icons/save.png</file>
+        <file>icons/zoomIn.png</file>
+        <file>icons/zoomOut.png</file>
+        <file>QTDark.stylesheet</file>
+        <file>fonts/LEDCounter7.ttf</file>
+    </qresource>
+</RCC>

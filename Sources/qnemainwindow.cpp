@@ -41,17 +41,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    textFont = ":/fonts/LEDCounter7.ttf";
     dpi96 = false;
-    textFont = "LEDCounter7.ttf";
     nodes_editor_scene = new QGraphicsScene();
     panel_editor_scene = new QGraphicsScene();
     loadBlocksFiles();
-    const QIcon loadIcon = QIcon("../icons/load.png");
+    const QIcon loadIcon = QIcon(":/icons/load.png");
     QToolBar *mainToolBar = addToolBar(tr("Edit"));
    // mainToolBar->setOrientation(Qt::Vertical);
     mainToolBar->setAllowedAreas(Qt::BottomToolBarArea);
     mainToolBar->setMovable(false);
-    const QIcon saveIcon = QIcon("../icons/save.png");
+    const QIcon saveIcon = QIcon(":/icons/save.png");
     //////////////////////////////////////////////////////////////////////////////// Menu pricipal (y compris ajout des blocks) /////////////////////////////////////////////////////////////
     QAction *quitAct = new QAction(tr("&Quit"), this);
     quitAct->setShortcuts(QKeySequence::Quit);
@@ -77,25 +77,25 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     mainToolBar->addAction(loadAct);
     mainToolBar->addAction(saveAct);
 
-    const QIcon exportIcon = QIcon("../icons/export.png");
+    const QIcon exportIcon = QIcon(":/icons/export.png");
     QAction *exportAct = new QAction(exportIcon, tr("&Export project(ctrl+g))"), this);
     exportAct->setStatusTip(tr("Export module code"));
     connect(exportAct, SIGNAL(triggered()), this, SLOT(exportCode()));
     mainToolBar->addAction(exportAct);
 
-    const QIcon duplicateIcon = QIcon("../icons/dupplicate.png");
+    const QIcon duplicateIcon = QIcon(":/icons/dupplicate.png");
     QAction *dupplicateAct  = new QAction(duplicateIcon, tr("&Dupplicate selected blocks (ctrl+d)"), this);
     dupplicateAct->setStatusTip(tr("Dupplicate selected blocks"));
     connect(dupplicateAct, SIGNAL(triggered()), this, SLOT(duplicate()));
     mainToolBar->addAction(dupplicateAct);
 
-    const QIcon deleteBlockIcon = QIcon("../icons/deleteBlock.png");
+    const QIcon deleteBlockIcon = QIcon(":/icons/deleteBlock.png");
     QAction *deleteBlockAct = new QAction(deleteBlockIcon, tr("&Delete block (delete key)"), this);
     deleteBlockAct->setStatusTip(tr("Delete selected blocks"));
     connect(deleteBlockAct, SIGNAL(triggered()), this, SLOT(deleteBlock()));
     mainToolBar->addAction(deleteBlockAct);
 
-    const QIcon propOutIcon = QIcon("../icons/propVisible.png");
+    const QIcon propOutIcon = QIcon(":/icons/propVisible.png");
     propOutAct = new QAction(propOutIcon, tr("&properties ('p' key)"), this);
     //propOutAct->isCheckable();
     propOutAct->setStatusTip(tr("properties ('p' key)"));
@@ -139,7 +139,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* geneToolButton = new QToolButton();
     geneToolButton->setMenu(submenuA);
     geneToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon generators = QIcon("../icons/Generators.png");
+    const QIcon generators = QIcon(":/icons/Generators.png");
     QWidgetAction* geneToolButtonAction = new QWidgetAction(this);
     geneToolButton->setIcon(generators);
     geneToolButtonAction->setDefaultWidget(geneToolButton);
@@ -151,7 +151,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* procToolButton = new QToolButton();
     procToolButton->setMenu(submenuB);
     procToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon processors = QIcon("../icons/Processors.png");
+    const QIcon processors = QIcon(":/icons/Processors.png");
     QWidgetAction* procToolButtonAction = new QWidgetAction(this);
     procToolButton->setIcon(processors);
     procToolButtonAction->setDefaultWidget(procToolButton);
@@ -163,7 +163,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* numToolButton = new QToolButton();
     numToolButton->setMenu(submenuC);
     numToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon numbers = QIcon("../icons/Numbers.png");
+    const QIcon numbers = QIcon(":/icons/Numbers.png");
     QWidgetAction* numToolButtonAction = new QWidgetAction(this);
     numToolButton->setIcon(numbers);
     numToolButtonAction->setDefaultWidget(numToolButton);
@@ -175,7 +175,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* arrToolButton = new QToolButton();
     arrToolButton->setMenu(submenuD);
     arrToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon arrays = QIcon("../icons/Arrays.png");
+    const QIcon arrays = QIcon(":/icons/Arrays.png");
     QWidgetAction* arrToolButtonAction = new QWidgetAction(this);
     arrToolButton->setIcon(arrays);
     arrToolButtonAction->setDefaultWidget(arrToolButton);
@@ -187,7 +187,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* mathToolButton = new QToolButton();
     mathToolButton->setMenu(submenuE);
     mathToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon maths = QIcon("../icons/Maths.png");
+    const QIcon maths = QIcon(":/icons/Maths.png");
     QWidgetAction* mathToolButtonAction = new QWidgetAction(this);
     mathToolButton->setIcon(maths);
     mathToolButtonAction->setDefaultWidget(mathToolButton);
@@ -199,7 +199,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* countToolButton = new QToolButton();
     countToolButton->setMenu(submenuF);
     countToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon counter = QIcon("../icons/Counters.png");
+    const QIcon counter = QIcon(":/icons/Counters.png");
     QWidgetAction* countToolButtonAction = new QWidgetAction(this);
     countToolButton->setIcon(counter);
     countToolButtonAction->setDefaultWidget(countToolButton);
@@ -211,7 +211,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* compToolButton = new QToolButton();
     compToolButton->setMenu(submenuG);
     compToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon comparators = QIcon("../icons/Comparators.png");
+    const QIcon comparators = QIcon(":/icons/Comparators.png");
     QWidgetAction* compToolButtonAction = new QWidgetAction(this);
     compToolButton->setIcon(comparators);
     compToolButtonAction->setDefaultWidget(compToolButton);
@@ -223,7 +223,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* jackToolButton = new QToolButton();
     jackToolButton->setMenu(submenuH);
     jackToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon jacks = QIcon("../icons/Jacks.png");
+    const QIcon jacks = QIcon(":/icons/Jacks.png");
     QWidgetAction* jackToolButtonAction = new QWidgetAction(this);
     jackToolButton->setIcon(jacks);
     jackToolButtonAction->setDefaultWidget(jackToolButton);
@@ -235,7 +235,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* ctlToolButton = new QToolButton();
     ctlToolButton->setMenu(submenuI);
     ctlToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon controllers = QIcon("../icons/Controllers.png");
+    const QIcon controllers = QIcon(":/icons/Controllers.png");
     QWidgetAction* ctlToolButtonAction = new QWidgetAction(this);
     ctlToolButton->setIcon(controllers);
     ctlToolButton->setToolTip("Controllers");
@@ -247,7 +247,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     QToolButton* othersToolButton = new QToolButton();
     othersToolButton->setMenu(submenuJ);
     othersToolButton->setPopupMode(QToolButton::InstantPopup);
-    const QIcon others = QIcon("../icons/Others.png");
+    const QIcon others = QIcon(":/icons/Others.png");
     QWidgetAction* othersToolButtonAction = new QWidgetAction(this);
     othersToolButton->setIcon(others);
     othersToolButtonAction->setDefaultWidget(othersToolButton);
@@ -258,25 +258,25 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     editMenu = menuBar()->addMenu(tr("&Help"));
     editMenu->addAction(displayHelpAct);
 
-    const QIcon displayControllerIcon = QIcon("../icons/displayController.png");
+    const QIcon displayControllerIcon = QIcon(":/icons/displayController.png");
     QAction *displayControllerAct = new QAction(displayControllerIcon, tr("&Display controller (ctrl+t))"), this);
     displayControllerAct->setStatusTip(tr("Display selected blocks on the panel editor"));
     connect(displayControllerAct, SIGNAL(triggered()), this, SLOT(displayOnPanel()));
     mainToolBar->addAction(displayControllerAct);
 
-    const QIcon deleteControllerIcon = QIcon("../icons/deleteController.png");
+    const QIcon deleteControllerIcon = QIcon(":/icons/deleteController.png");
     QAction *deleteControllerAct = new QAction(deleteControllerIcon, tr("&Delete controller (right click)"), this);
     deleteControllerAct->setStatusTip(tr("Delete selected controller"));
     connect(deleteControllerAct, SIGNAL(triggered()), this, SLOT(deleteController()));
     mainToolBar->addAction(deleteControllerAct);
 
-    const QIcon ZoomInIcon = QIcon("../icons/zoomIn.png");
+    const QIcon ZoomInIcon = QIcon(":/icons/zoomIn.png");
     QAction *ZoomInAct = new QAction(ZoomInIcon, tr("&Zoom in - panel editor ('h' key)"), this);
     ZoomInAct->setStatusTip(tr("Zoom in - panel editor"));
     connect(ZoomInAct, SIGNAL(triggered()), this, SLOT(zoomIn()));
     mainToolBar->addAction(ZoomInAct);
 
-    const QIcon ZoomOutIcon = QIcon("../icons/zoomOut.png");
+    const QIcon ZoomOutIcon = QIcon(":/icons/zoomOut.png");
     QAction *ZoomOutAct = new QAction(ZoomOutIcon, tr("&Zoom out - panel editor ('g' key)"), this);
     ZoomOutAct->setStatusTip(tr("Zoom out - panel editor"));
     connect(ZoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOut()));
