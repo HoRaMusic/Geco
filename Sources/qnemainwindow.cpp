@@ -1,4 +1,11 @@
 
+/* Copyright (c) 2019, Raphaël HOFFMAN
+under GNU GENERAL PUBLIC LICENSE version 3 */
+
+// nodes UI inspired by a a STANISLAW ADASZEWSKI software see "qneBlocks, connection and nodesditor header for more informations.
+
+
+
 #include "Headers/qnemainwindow.h"
 #include "Headers/ui_qnemainwindow.h"
 #include "Headers/qneblock.h"
