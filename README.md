@@ -40,16 +40,16 @@ TEST:
 
 RELEASE/DEPLOY:
 
-win:
-Run the win-build-script.bat
+ win:
+ Run the win-build-script.bat
 
-mac:
-run ./osx-build-script.sh
-get .dmg files in GecoBuilds/osx/
+ mac:
+ run ./osx-build-script.sh
+ get .dmg files in GecoBuilds/osx/
 
 
 DEPENDENCIES:
 
-The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.
-https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
+ The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.
+ https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
 
