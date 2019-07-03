@@ -13,6 +13,7 @@ Geco is a work on progress, some blocks are obsolet:
 - stringMux, stringLeft and stringPack are not tested for V1.0 yet and has to be modified to use less CPU.
 - Geco can only create plugins code for rack V1.x
 - Currently Geco do not generate the manifest so you have to write it manually.
+- The "block creator" mentioned in the manual is available on this repository https://github.com/HoRaMusic/GecoBlockCreator
 
 
 
@@ -25,7 +26,7 @@ BUILD:
 
 - Use Qt 5.6 to build the project:
 
-Set Qt to add ther release folder into GecoBuilds:
+Set Qt to add the release folder into GecoBuilds:
 
 ![alt text](https://github.com/HoRaMusic/Geco/blob/master/QtRunSetting.png)
 
