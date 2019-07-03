@@ -3,7 +3,6 @@ VCV plugin Maker
 
 
 
-
 IMPORTANT:
 
 Geco is a work on progress, some blocks are obsolet:
@@ -14,7 +13,6 @@ Geco is a work on progress, some blocks are obsolet:
 - Geco can only create plugins code for rack V1.x
 - Currently Geco do not generate the manifest so you have to write it manually.
 - The "block creator" mentioned in the manual is available on this repository https://github.com/HoRaMusic/GecoBlockCreator
-
 
 
 
@@ -57,3 +55,9 @@ to build on OS X:
 
 run ./osx-build-script.sh
 get .dmg files in GecoBuilds/osx/
+
+DEPENDENCIES:
+
+The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.
+https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
+
