@@ -1,5 +1,4 @@
-/* Copyright (c) 2012, STANISLAW ADASZEWSKI
-
+/* Copyright (c) 2012, Raphaël Hoffman
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -22,7 +21,10 @@ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+The graphical nodes editor is inspired by a STANISLAW ADASZEWSKI software  https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
+*/
 
 #include <QtWidgets>
 #include <QApplication>
