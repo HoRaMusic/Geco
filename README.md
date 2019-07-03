@@ -1,14 +1,20 @@
 # Geco
 VCV plugin Maker
 
+
+
 IMPORTANT:
 
-Uncomment the matching line to build the free or full version in "Soures/qnemainwindow.h" line 45 :
+Geco is a work on progress, some blocks are obsolet:
 
-```
-#define VERSION 1 // uncomment for full version
-//#define VERSION 0 // uncomment for free version
-```
+- wavetable (use too much CPU, don't work on mac), the wave table object will be completly change to offer antialiasing and use   
+  "waveedit" files http://synthtech.com/waveedit/.
+- stringMux, stringLeft and stringPack are not tested for V1.0 yet and has to be modified to use less CPU.
+- Geco can only create plugins code for rack V1.x
+- Currently Geco do not generate the manifest so you have to write it manually.
+- The "block creator" mentioned in the manual is available on this repository https://github.com/HoRaMusic/GecoBlockCreator
+
+
 
 BUILD: 
 
@@ -18,7 +24,7 @@ BUILD:
 
 - Use Qt 5.6 to build the project:
 
-Set Qt to add ther release folder into GecoBuilds:
+Set Qt to add the release folder into GecoBuilds:
 
 ![alt text](https://github.com/HoRaMusic/Geco/blob/master/QtRunSetting.png)
 
@@ -34,7 +40,11 @@ TEST:
 
 RELEASE/DEPLOY ON WINDOWS:
 
-On final release the windows deploy can be automated by this build setting: 
+Run the win-build-script.bat
+
+or
+
+The windows deploy can normally be automated by this build setting: 
 
 ![alt text](https://github.com/HoRaMusic/Geco/blob/master/winDeploy.png)
 
@@ -45,3 +55,9 @@ to build on OS X:
 
 run ./osx-build-script.sh
 get .dmg files in GecoBuilds/osx/
+
+DEPENDENCIES:
+
+The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.
+https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
+
