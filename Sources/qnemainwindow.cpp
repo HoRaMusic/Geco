@@ -322,7 +322,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
             }
         }
     }
-
+       // "setMainModuleAttributes"
     //dial.exec();
     setWindowTitle(tr("Geco"));
 
@@ -331,6 +331,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     nodes_editor_view = new QGraphicsView(nodes_editor_dock);
     nodes_editor_view->setBackgroundBrush(QBrush(QColor(61,61,61), Qt::SolidPattern));
     nodes_editor_view->setScene(nodes_editor_scene);
+    nodes_editor_view->setDragMode(QGraphicsView::NoDrag);
     nodes_editor_dock->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     nodes_editor_dock->setFeatures(0);
     // This property holds the default render hints for the view.
@@ -338,6 +339,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     //Sets the widget for the dock widget to widget.
     nodes_editor_dock->setWidget(nodes_editor_view);
     nodes_editor_dock->setStyleSheet("QDockWidget {color:  #ffe1ae; background-color: lightGray}");
+
     addDockWidget(Qt::LeftDockWidgetArea, nodes_editor_dock);
     nodesEditor = new QNodesEditor(this);
     nodesEditor->install(nodes_editor_scene);
@@ -349,6 +351,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     panel_editor_view = new QGraphicsView(panel_editor_dock);
     panel_editor_view->setBackgroundBrush(QBrush(QColor(61,61,61), Qt::SolidPattern));
     panel_editor_view->setScene(panel_editor_scene);
+    panel_editor_view->setDragMode(QGraphicsView::NoDrag);
     // This property holds the default render hints for the view.
     panel_editor_view->setRenderHint(QPainter::Antialiasing, true);
     //Sets the widget for the dock widget to widget.
@@ -368,6 +371,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     addBlock(s_m_Block);
     propVisible = true;
 }
+
 void QNEMainWindow::setDPI()
 {
     if (dpi96 == true)
@@ -450,6 +454,16 @@ void QNEMainWindow::deleteBlock()
 void QNEMainWindow::duplicate()
 {
     ctrl = false;
+    for(int i = 0; i < originalIDs.size() ; i++)
+    {
+        originalIDs.remove(i);
+    }
+    for(int i = 0; i < copyIDs.size() ; i++)
+    {
+        copyIDs.remove(i);
+    }
+    // copie de tout les blocks et remplissage des vecteurs
+    int lastBlockID = blockID - 1;
     foreach(QGraphicsItem *item, nodes_editor_scene->items())
     {
         if (item->type() == QNEBlock::Type)
@@ -461,23 +475,151 @@ void QNEMainWindow::duplicate()
                  if (b->blockName() != "plugin_setting" && b->blockName() != "smart_panel")
                  {
                      b->clone(blockID);
+                     originalIDs.append(b->uniqueID());
+                     copyIDs.append(blockID);
                      blockID++;
                  }
+            }
+        }
+    }
+    // vérification d'existance de connections entre les blocks originaux et création de leur copie entre les blocks copié correspondant
+    foreach(QGraphicsItem *item, nodes_editor_scene->items())
+    {
+        if (item->type() == QNEBlock::Type)
+        {
+            QNEBlock *b =(QNEBlock*) item;
+            for(int i = 0; i < originalIDs.size(); i ++)
+            {
+                if (b->uniqueID() == originalIDs.at(i))
+                {
+                    QVector<int> inComingBlocksID;
+                    QVector<QString> inComingPortName;
+                    QString portName;
+                    QVector<QNEPort*> ports = b->ports();
+                    for(int portIndex = 0; portIndex < ports.size();  portIndex ++)
+                    {
+                         int portIndexC = 199;
+                         QNEPort *port = ports.at(portIndex);
+                         portName = port->portName();
+                         QVector<QNEConnection*> connections = port->connections();
+                         if (port->isOutput() == false)
+                         {
+                            for (int i = 0; i < connections.size(); i++)
+                            {
+                                QNEConnection *currentConnection = connections.at(i);
+                                QNEPort *port1 = currentConnection->port1();
+                                QNEPort *port2 = currentConnection->port2();
+                                if (port1->isOutput())
+                                {
+
+                                    for (int k = 0; k < originalIDs.size(); k++)
+                                    {
+                                        if (port1->block()->uniqueID() == originalIDs.at(k))
+                                        {
+                                            inComingBlocksID.append(port1->block()->uniqueID());
+                                            inComingPortName.append(port1->portName());
+                                            portIndexC = portIndex;
+                                        }
+                                    }
+                                }
+                                else if (port2->isOutput())
+                                {
+
+                                    for (int k = 0; k < originalIDs.size(); k++)
+                                    {
+                                        if (port2->block()->uniqueID() == originalIDs.at(k))
+                                        {
+                                            inComingBlocksID.append(port2->block()->uniqueID());
+                                            inComingPortName.append(port2->portName());
+                                            portIndexC = portIndex;
+                                        }
+                                    }
+                                }
+                            }
+                            int copiedConNumber = 0;
+                            foreach(QGraphicsItem *itemCopy, nodes_editor_scene->items())
+                            {
+                                if (itemCopy->type() == QNEBlock::Type)
+                                {
+                                    QNEBlock *bCopy =(QNEBlock*) itemCopy;
+                                    if (bCopy->uniqueID() == copyIDs.at(i))
+                                    {
+                                        //for each copy
+                                        for (int j = 0; j < inComingBlocksID.size(); j++ )
+                                        {
+                                            // for each copiedBlock
+                                            for(int u = 0; u < originalIDs.size(); u ++)
+                                            {
+                                                if (originalIDs.at(u) == inComingBlocksID.at(j))
+                                                {
+                                                    //for each block
+                                                    foreach(QGraphicsItem *itemIncomerCopy, nodes_editor_scene->items())
+                                                    {
+                                                        if (itemIncomerCopy->type() == QNEBlock::Type)
+                                                        {
+                                                            QNEBlock *bIncomerCopy =(QNEBlock*) itemIncomerCopy;
+                                                            // if block is a copy
+                                                            if (bIncomerCopy->uniqueID() == copyIDs.at(u))
+                                                            {
+                                                                foreach(QGraphicsItem *incomerCopyPort_t, bIncomerCopy->childItems())
+                                                                {
+                                                                    QNEPort *incomerCopyPort = (QNEPort*) incomerCopyPort_t;
+                                                                    // if one of hese port name is the same from of the incomp
+                                                                    if (incomerCopyPort->portName() == inComingPortName.at(j))
+                                                                    {
+                                                                        QVector<QNEPort*> ports2 = bCopy->ports();
+                                                                        if (portIndexC < 190 && copiedConNumber < connections.size())
+                                                                        {
+                                                                            QNEPort *copyPort = ports2.at(portIndexC);
+                                                                            if (copyPort->block()->uniqueID() > lastBlockID && incomerCopyPort->block()->uniqueID() > lastBlockID )
+                                                                            {
+                                                                                nodesEditor->createConn(copyPort, incomerCopyPort);
+                                                                                copiedConNumber ++;
+                                                                            }
+                                                                        }
+                                                                     }
+                                                                 }
+                                                             }
+                                                         }
+                                                     }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 void QNEMainWindow::exportCode()
 {
-    int numberOfController = 0;
-    foreach(QGraphicsItem *pitem, panel_editor_scene->items())
+    int dspBlocks = 0;
+    foreach(QGraphicsItem *pitem, nodes_editor_scene->items())
     {
-            if (pitem->toolTip() != "panel")
+        bool isDsp = true;
+        if (pitem->type() == QNEBlock::Type)
+        {
+
+            foreach(QGraphicsItem *port_, pitem->childItems())
             {
-                numberOfController ++;
+                QNEPort *port = (QNEPort*) port_;
+                QString portName = port->portName();
+                if (portName == "knob" || portName == "screen" ||portName == "led" || portName == "button" || portName == "switch" || portName == "rotary_switch" || portName == "module_input" || portName == "module_output"|| portName == "screw")
+                {
+                    isDsp = false;
+                }
             }
+            if (isDsp == true)
+            {
+                dspBlocks++;
+            }
+        }
     }
-    if (numberOfController < 8 || VERSION == FULL)
+    if (dspBlocks < 10 || VERSION == FULL)
     {
         QString plugDir = QFileDialog::getExistingDirectory();
         if (plugDir.isEmpty())
@@ -487,6 +629,7 @@ void QNEMainWindow::exportCode()
         bool exaustiveProject =false;
         int conditions = 0;
         int controllerBlockN = 0;
+
         foreach(QGraphicsItem *item, nodes_editor_scene->items())
         {
             if (item->type() == QNEBlock::Type)
@@ -504,6 +647,10 @@ void QNEMainWindow::exportCode()
                      if (pName == "Controllers" || pName == "I/O")
                      {
                          controllerBlockN++;
+                     }
+                     else if (pName != "smart_panel" && pName != "plugin_setting")
+                     {
+                         dspBlocks++;
                      }
                 }
             }
@@ -607,23 +754,13 @@ void QNEMainWindow::exportCode()
     else
     {
         CustomDialog dial("Light Edition limitation:");
-        dial.addLabel("Geco Light Edition is limited to 5 controllers (screen is perceived as 2 controllers)");
+        dial.addLabel("Geco Light Edition is limited to controller positionning and doesn't allow to export project containing dsp blocks)");
         dial.exec();
     }
 
 }
 void QNEMainWindow::displayOnPanel()
 {
-    int numberOfController = 0;
-    foreach(QGraphicsItem *pitem, panel_editor_scene->items())
-    {
-         if (pitem->toolTip() != "panel")
-         {
-             numberOfController ++;
-         }
-    }
-    if (numberOfController < 8 || VERSION == FULL)
-    {
         ctrl = false;
         foreach(QGraphicsItem *item, nodes_editor_scene->items())
         {
@@ -736,13 +873,6 @@ void QNEMainWindow::displayOnPanel()
                 }
             }
         }
-    }
-    else
-   {
-            CustomDialog dial("Light Edition limitation:");
-            dial.addLabel("Geco Light Edition is limited to 5 controllers (screen is perceived as 2 controllers)");
-            dial.exec();
-    }
 }
 
 void QNEMainWindow::displayHelp()
@@ -1314,6 +1444,8 @@ void QNEMainWindow::keyPressEvent(QKeyEvent *event)
     {
         ctrl = true;
         nodesEditor->controlPressed(ctrl);
+        panel_editor_view->setDragMode(QGraphicsView::RubberBandDrag);
+        nodes_editor_view->setDragMode(QGraphicsView::RubberBandDrag);
         //nodesEditor->propActive(false);
     }
     if (event->key() == Qt::Key_T && ctrl == true)
@@ -1351,6 +1483,8 @@ void QNEMainWindow::keyReleaseEvent(QKeyEvent *event)
     {
         ctrl = false;
         nodesEditor->controlPressed(ctrl);
+        panel_editor_view->setDragMode(QGraphicsView::NoDrag);
+        nodes_editor_view->setDragMode(QGraphicsView::NoDrag);
         /*
         int b = 0;
         foreach(QGraphicsItem *item, nodes_editor_scene->items())

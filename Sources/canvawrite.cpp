@@ -282,25 +282,41 @@ void Canvawrite::setMainModuleAttributes(QVector<QString> portVec)
     }
    if (isPlugin_setting == true)
    {
-       manufacturer = portVec.at(2);
-       slug = portVec.at(3);
-       version= portVec.at(4);
-       tags = portVec.at(5);
-       plugin_file_name = portVec.at(6);
-       modules_files_names = portVec.at(7);
-       QString current_module_file_nameT = modules_files_names;
-       current_module_file_nameT.truncate(current_module_file_nameT.lastIndexOf(QChar(',')));
-       if ( current_module_file_nameT != 0)
+       // if the plugin were made with geco 0.1
+       if (portVec.size() > 6)
        {
-          current_module_file_name = current_module_file_nameT;
+           plugin_file_name = portVec.at(6);
+           modules_files_names = portVec.at(7);
+           QString current_module_file_nameT = modules_files_names;
+           current_module_file_nameT.truncate(current_module_file_nameT.lastIndexOf(QChar(',')));
+           if ( current_module_file_nameT != 0)
+           {
+              current_module_file_name = current_module_file_nameT;
+           }
+           else
+           {
+              current_module_file_name = modules_files_names;
+           }
+           module_name = portVec.at(8);
+           website = portVec.at(10);
        }
        else
        {
-          current_module_file_name = modules_files_names;
+           plugin_file_name = portVec.at(2);
+           modules_files_names = portVec.at(3);
+           QString current_module_file_nameT = modules_files_names;
+           current_module_file_nameT.truncate(current_module_file_nameT.lastIndexOf(QChar(',')));
+           if ( current_module_file_nameT != 0)
+           {
+              current_module_file_name = current_module_file_nameT;
+           }
+           else
+           {
+              current_module_file_name = modules_files_names;
+           }
+           module_name = portVec.at(4);
+           website = portVec.at(5);
        }
-       module_name = portVec.at(8);
-       IDName = portVec.at(9);
-       website = portVec.at(10);
    }
    else if (isPanel_setting == true)
    {
@@ -327,8 +343,6 @@ void Canvawrite::writePluginCPP()
             QTextStream stream( &makeFile);
 
             stream << "RACK_DIR ?= ../..\n\n";
-            stream << "SLUG = " + slug + "\n";
-            stream << "VERSION = " + version + "\n";
             stream << "SOURCES = $(wildcard src/*.cpp) $(wildcard src/*.c)\n";
             stream << "\n\n";
             stream << "DISTRIBUTABLES += $(wildcard LICENSE*) res\n" ;
@@ -360,14 +374,11 @@ void Canvawrite::writePluginCPP()
             QString pn = plugin_file_name;
             stream << "#include \"" + pn + ".hpp\"" << endl;
             stream << "#include <math.h>" << endl;
-            stream << "    float getSampleRate()\n    {\n        return engineGetSampleRate();\n    }\n"<< endl;
-            stream << "Plugin *plugin;" << endl;
+            stream << "    float getSampleRate()\n    {\n        return APP->engine->getSampleRate();\n    }\n"<< endl;
+            stream << "Plugin *pluginInstance;" << endl;
             stream << "void init(rack::Plugin *p) {" << endl;
-            stream << "    plugin = p;" << endl;
-            stream << "    p->slug = \"" + slug + "\";" << endl;
-            stream << "#ifdef VERSION" << endl;
-            stream << "    p->version = TOSTRING(VERSION);" << endl;
-            stream << "#endif\n" << endl;
+            stream << "    pluginInstance = p;" << endl;
+
             QStringList moduleList;
             moduleList = modules_files_names.split(',');
             for (int i=0; i<moduleList.size(); i++)
@@ -424,7 +435,7 @@ void Canvawrite::writeModuleCanva()
    MCW->writeModuleStruct(controlVec, plugin_file_name);
    MCW->writeStepFunctionCanva();
    MCW->writeWidgetDeclar(controlVec, panelWidth, panel_image_name, plugin_file_name);
-   MCW->writeModuleModel(IDName, module_name, manufacturer, tags);
+   MCW->writeModuleModel(module_name);
 }
 
 void Canvawrite::writeHeader()
@@ -469,7 +480,7 @@ void Canvawrite::writeHeader()
             QTextStream stream(&fHeader);
             stream << "#include \"rack.hpp\" \n" << endl;
             stream << "using namespace rack;" << endl;
-            stream << "extern Plugin *plugin;" << endl;
+            stream << "extern Plugin *pluginInstance;" << endl;
             QStringList moduleList;
             moduleList = modules_files_names.split(',');
             for (int i=0; i<moduleList.size(); i++)
@@ -719,14 +730,14 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
             {
                 imageNameK = control->imageName();
             }
-            stream << "struct " + controlNameK + " : SVGKnob{"  << endl;
+            stream << "struct " + controlNameK + " : SvgKnob{"  << endl;
             stream << controlNameK + "() {" << endl;
             stream << "    box.size = Vec(25, 25);" << endl; // the size won't be necessary on v1.0 PAPI
             stream << "    minAngle = -0.75*M_PI;" << endl;
             stream << "    maxAngle = 0.75*M_PI;" << endl;
-            stream << "    setSVG(SVG::load(assetPlugin(plugin,\"res/" + imageNameK + ".svg\")));"<< endl;
-            stream << "    SVGWidget *shadow = new SVGWidget();" << endl;
-            stream << "    shadow->setSVG(SVG::load(assetPlugin(plugin, \"res/" + shadow_image_name + "\")));" << endl;
+            stream << "    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameK + ".svg\")));"<< endl;
+            stream << "    SvgWidget *shadow = new SvgWidget();" << endl;
+            stream << "    shadow->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, \"res/" + shadow_image_name + "\")));" << endl;
             stream << "    addChild(shadow);" << endl;
             stream << "    }" << endl;
             stream << "};" << endl;
@@ -748,11 +759,11 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
             {
                 imageNameJ = control->imageName();
             }
-            stream << "struct " + controlNameJ + " : SVGPort{"  << endl;
+            stream << "struct " + controlNameJ + " : SvgPort{"  << endl;
             stream << controlNameJ + "() {" << endl;
-            stream << "    background->svg = SVG::load(assetPlugin(plugin,\"res/" + imageNameJ + ".svg\"));"<< endl;
-            stream << "    background->wrap();" << endl;
-            stream << "    box.size = background->box.size;" << endl;
+            stream << "    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameJ + ".svg\")));"<< endl;
+            //stream << "    background->wrap();" << endl;
+            //stream << "    box.size = background->box.size;" << endl;
             stream << "    }" << endl;
             stream << "};" << endl;
         }
@@ -778,10 +789,12 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
             {
                 imageNameB = control->imageName();
             }
-            stream << "struct " + controlNameB + " : SVGSwitch, MomentarySwitch {"  << endl;
+            stream << "struct " + controlNameB + " : SvgSwitch {"  << endl;
             stream << "    " + controlNameB + "(){"<< endl;
-            stream << "    addFrame(SVG::load(assetPlugin(plugin,\"res/" + imageNameB + ".svg\")));"<< endl;
-            stream << "    addFrame(SVG::load(assetPlugin(plugin,\"res/" + imageNameB + "Pushed.svg\")));"<< endl;
+
+            stream << "    momentary = true;"<< endl;
+            stream << "    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameB + ".svg\")));"<< endl;
+            stream << "    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameB + "Pushed.svg\")));"<< endl;
             stream << "    sw->wrap();"  << endl;
             stream << "    box.size = sw->box.size;"  << endl;
             stream << "    }" << endl;
@@ -804,12 +817,12 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
             {
                 imageNameS = control->imageName();
             }
-            stream << "struct " + controlNameS + " : SVGSwitch, ToggleSwitch {"  << endl;
+            stream << "struct " + controlNameS + " : SvgSwitch {"  << endl;
             stream << controlNameS + "() {" << endl;
             int posN = positionsS.toInt();
                 for (int p = 0; p < posN ; p++)
                 {
-                    stream << "    addFrame(SVG::load(assetPlugin(plugin,\"res/" + imageNameS + "_" + QString::number(p) + ".svg\")));"<< endl;
+                    stream << "    addFrame(APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameS + "_" + QString::number(p) + ".svg\")));"<< endl;
                 }
             stream << "    sw->wrap();"  << endl;
             stream << "    box.size = sw->box.size;"  << endl;
@@ -833,14 +846,14 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
             {
                 imageNameRS = control->imageName();
             }
-            stream << "struct " + controlNameRS + " : SVGKnob{"  << endl;
+            stream << "struct " + controlNameRS + " : SvgKnob{"  << endl;
             stream << controlNameRS + "() {" << endl;
             stream << "    box.size = Vec(25, 25);" << endl; // the size won't be necessary on v1.0 PAPI
             stream << "    minAngle = -0.75*M_PI;" << endl;
             stream << "    maxAngle = 0.75*M_PI;" << endl;
-            stream << "    setSVG(SVG::load(assetPlugin(plugin,\"res/" + imageNameRS + ".svg\")));"<< endl;
-            stream << "    SVGWidget *shadow = new SVGWidget();" << endl;
-            stream << "    shadow->setSVG(SVG::load(assetPlugin(plugin, \"res/" + r_shadow_image_name + "\")));" << endl;
+            stream << "    setSvg(APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameRS + ".svg\")));"<< endl;
+            stream << "    SvgWidget *shadow = new SvgWidget();" << endl;
+            stream << "    shadow->setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, \"res/" + r_shadow_image_name + "\")));" << endl;
             stream << "    addChild(shadow);" << endl;
             stream << "    }" << endl;
             stream << "};" << endl;
@@ -866,9 +879,9 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
             {
                 imageNameSc = control->imageName();
             }
-            stream << "struct " + controlNameSc + " : SVGScrew {"  << endl;
+            stream << "struct " + controlNameSc + " : SvgScrew {"  << endl;
             stream << controlNameSc + "() {" << endl;
-            stream << "    sw->svg = SVG::load(assetPlugin(plugin,\"res/" + imageNameSc + ".svg\"));"<< endl;
+            stream << "    sw->svg = APP->window->loadSvg(asset::plugin(pluginInstance,\"res/" + imageNameSc + ".svg\"));"<< endl;
             stream << "    sw->wrap();" << endl;
             stream << "    box.size = sw->box.size;" << endl;
             stream << "    }" << endl;
@@ -876,10 +889,7 @@ void Canvawrite::writeControllerDef(QTextStream &stream)
         }
     }
 }
-QString Canvawrite::getManufacturer()
-{
-    return manufacturer;
-}
+
 QString Canvawrite::getPlugin_name()
 {
     return plugin_file_name;
@@ -887,18 +897,6 @@ QString Canvawrite::getPlugin_name()
 QString Canvawrite::getModule_name()
 {
     return module_name;
-}
-QString Canvawrite::getSlug()
-{
-    return slug;
-}
-QString Canvawrite::getVersion()
-{
-    return version;
-}
-QString Canvawrite::getTags()
-{
-    return tags;
 }
 QString Canvawrite::getPanel_image_name()
 {

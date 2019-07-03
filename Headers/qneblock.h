@@ -106,7 +106,7 @@ private:
     QVector<QLineEdit*> widVectorS;
     QVector<bool> hasToBeSet;
     QVector<bool> visible;
-
+    QGraphicsScene *panel_editor_scene;
     //QGroupBox *groupBox;
     //QVector<QDoubleSpinBox> dsbV;
     //QVector<QSpinBox> sbV;

@@ -12,12 +12,8 @@ public:
     Canvawrite(QString _plugDir, bool _bigDPI);
     void setMainModuleAttributes(QVector<QString> portVec);
     void setControllersAttributes(QVector<QString> portVec);
-    QString getManufacturer();
     QString getPlugin_name();
     QString getModule_name();
-    QString getSlug();
-    QString getVersion();
-    QString getTags();
     QString getPanel_image_name();
     QVector<Controllerstore*> getControlVec();
     void writeHeader();
@@ -26,11 +22,7 @@ public:
     void writeControllerDef(QTextStream &stream_);
     void transferImageFiles();
 private:
-    QString manufacturer;
     QString module_name;
-    QString slug;
-    QString version;
-    QString tags;
     QString panel_image_name;
     QVector<Controllerstore*> controlVec;
     QVector<Controllerstore*> controlVecWoDoublons;
@@ -40,7 +32,6 @@ private:
     QString modules_files_names;
     QString current_module_file_name;
     QString models_name;
-    QString IDName;
     QString website;
     QStringList FileToWriteInList;
     QStringList CPPFileToWriteInList;

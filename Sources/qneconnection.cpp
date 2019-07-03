@@ -35,6 +35,7 @@ QNEConnection::QNEConnection(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
     setPen(QPen(Qt::white, 2));
 	setBrush(Qt::NoBrush);
+    //setFlag(QGraphicsItem::ItemIsSelectable);
 	setZValue(-1);
 	m_port1 = 0;
 	m_port2 = 0;

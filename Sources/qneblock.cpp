@@ -24,7 +24,6 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "Headers/qneblock.h"
-
 #include <QPen>
 #include <QGraphicsScene>
 #include <QFontMetrics>
@@ -41,6 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QScrollBar>
 #include <QDockWidget>
 #include <QDesktopWidget>
+#include "Headers/customdialog.h"
 
 QNEBlock::QNEBlock(int uniqueBlockID, QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
@@ -377,23 +377,119 @@ void QNEBlock::scanProperties()
                {
                    if (block_name == "knob" || block_name == "switch" ||  block_name == "rotary_switch" ||  block_name == "button" || block_name == "module_input" || block_name == "module_output" || block_name == "led")
                    {
-                       string *image_Name = param_s[i];
-                       QString imName =  QString::fromStdString(*image_Name);
-                       QString substring;
-                       if ( block_name == "rotary_switch" )
+                       if (onPanel)
                        {
-                           substring = imName.left(imName.size() - 4) + "snap";
+                           if (qs->text().toStdString() != *param_s[i])
+                           {
+                               qs->setStyleSheet(
+                               "QWidget:disabled{color: #64B2D1;}"
+                               "QWidget{color: grey;}");
+                           }
                        }
                        else
                        {
-                           substring = imName.left(imName.size() - 4);
+                           string *image_Name = param_s[i];
+                           QString imName =  QString::fromStdString(*image_Name);
+                           QString substring;
+                           if ( block_name == "rotary_switch" )
+                           {
+                               substring = imName.left(imName.size() - 4) + "snap";
+                           }
+                           else
+                           {
+                               substring = imName.left(imName.size() - 4);
+                           }
+
+                           string *imageName = new string(substring.toStdString());
+                           param_s[i-1] = imageName;
                        }
-
-                       string *imageName = new string(substring.toStdString());
-                       param_s[i-1] = imageName;
-
                    }
                    if (qs->toolTip() == name)
+                   {
+
+                       if (onPanel)
+                       {
+                           if (qs->text().toStdString() != *param_s[i])
+                           {
+                               qs->setStyleSheet(
+                               "QWidget:disabled{color: #64B2D1;}"
+                               "QWidget{color: grey;}");
+                           }
+                       }
+                       else
+                       {
+                           if (qs->text().toStdString() != *param_s[i])
+                           {
+                               string *wv = new string(qs->text().toStdString());
+                               param_s[i] = wv;
+                           }
+                           string *hh = param_s[i];
+                           string *bb = defaultParam_s[i];
+                           QString jj =  QString::fromStdString(*hh) ;
+                           QString ll =  QString::fromStdString(*bb) ;
+
+                           if (jj == ll && hasToBeSet.at(i) == true)
+                           {
+                               qs->setStyleSheet(
+                               "QWidget:disabled{color: #64B2D1;}"
+                               "QWidget{color: red;}");
+                           }
+                           else
+                           {
+                              qs->setStyleSheet("QTDark.stylesheet");
+                           }
+                       }
+                   }
+               }
+               else if (qs->toolTip() == name)
+               {
+                   if (i == 0)
+                   {
+                       if (block_name == "knob" || block_name == "switch" ||  block_name == "rotary_switch" ||  block_name == "button" || block_name == "module_input" || block_name == "module_output" || block_name == "led")
+                       {
+                           if (onPanel)
+                           {
+                               if (qs->text().toStdString() != *param_s[i])
+                               {
+                                   qs->setStyleSheet(
+                                   "QWidget:disabled{color: #64B2D1;}"
+                                   "QWidget{color: grey;}");
+                               }
+                           }
+                           else
+                           {
+                               if (qs->text().toStdString() != *param_s[i])
+                               {
+                                   string *wv = new string(qs->text().toStdString());
+                                   param_s[i] = wv;
+                               }
+                           }
+                       }
+                       else
+                       {
+                           if (qs->text().toStdString() != *param_s[i])
+                           {
+                               string *wv = new string(qs->text().toStdString());
+                               param_s[i] = wv;
+                           }
+                           string *hh = param_s[i];
+                           string *bb = defaultParam_s[i];
+                           QString jj =  QString::fromStdString(*hh) ;
+                           QString ll =  QString::fromStdString(*bb) ;
+
+                           if (jj == ll && hasToBeSet.at(i) == true)
+                           {
+                               qs->setStyleSheet(
+                               "QWidget:disabled{color: #64B2D1;}"
+                               "QWidget{color: red;}");
+                           }
+                           else
+                           {
+                              qs->setStyleSheet("QTDark.stylesheet");
+                           }
+                       }
+                   }
+                   else
                    {
                        if (qs->text().toStdString() != *param_s[i])
                        {
@@ -416,30 +512,6 @@ void QNEBlock::scanProperties()
                           qs->setStyleSheet("QTDark.stylesheet");
                        }
                    }
-               }
-               else if (qs->toolTip() == name)
-               {
-                    if (qs->text().toStdString() != *param_s[i])
-                    {
-                        string *wv = new string(qs->text().toStdString());
-                        param_s[i] = wv;
-                    }
-                    string *hh = param_s[i];
-                    string *bb = defaultParam_s[i];
-                    QString jj =  QString::fromStdString(*hh) ;
-                    QString ll =  QString::fromStdString(*bb) ;
-
-                    if (jj == ll && hasToBeSet.at(i) == true)
-                    {
-                        qs->setStyleSheet(
-                        "QWidget:disabled{color: #64B2D1;}"
-                        "QWidget{color: red;}");
-                    }
-                    else
-                    {
-                       qs->setStyleSheet("QTDark.stylesheet");
-                    }
-
                 }
             }
         }
@@ -879,11 +951,11 @@ QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int pt
         QString jj =  QString::fromStdString(*hh) ;
         string *xx;
         xx = param_s.at(numberOfCreatedPorts - 1);
-        QString ss =  QString::fromStdString(*hh) ;
+        /*QString ss =  QString::fromStdString(*hh) ;
         QByteArray s = ss.toUtf8();
         QByteArray j = jj.toUtf8();
         qDebug(s);
-        qDebug(j);
+        qDebug(j);*/
         if (hasToBeSet.at(numberOfCreatedPorts - 1))
         {
             port->setRed();
@@ -1110,7 +1182,7 @@ QNEBlock* QNEBlock::clone(int NBlockID)
         {
             QNEPort *port = (QNEPort*) port_;
             QString pName = port->portName();
-
+            QVector<QNEConnection*> connections = port->connections();
             if ((port->thirdPtr() == 2 || port->thirdPtr() == 3 || port->thirdPtr() == 4) && port->isMainType() == 0)
             {
                 QString prName = propVector.at(i)->getName();

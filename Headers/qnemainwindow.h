@@ -111,6 +111,8 @@ private:
     QVector<string*> vNameVec;
     QVector<float*> vNumVec;
     QVector<int*> vNumVecI;
+    QVector<int> originalIDs;
+    QVector<int> copyIDs;
     QAction* actCheck;
     bool newItemCalling;
     QString selectedBlock_name;

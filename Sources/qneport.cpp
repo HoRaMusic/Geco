@@ -174,7 +174,6 @@ bool QNEPort::isConnected(QNEPort *other)
 	foreach(QNEConnection *conn, m_connections)
 		if (conn->port1() == other || conn->port2() == other)
 			return true;
-
 	return false;
 }
 

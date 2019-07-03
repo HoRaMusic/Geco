@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsScene>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QWidget>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include "Headers/qneport.h"
@@ -89,6 +90,15 @@ void QNodesEditor::addTextEdit(QString name, QString param_s, QString defaultVal
 {
 
 }
+void  QNodesEditor::createConn(QNEPort *p1, QNEPort *p2)
+{
+    conn = new QNEConnection(0);
+    scene->addItem(conn);
+    conn->setPort1(p1);
+    conn->setPort2(p2);
+    conn->updatePath();
+    conn = 0;
+}
 bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 {
 	QGraphicsSceneMouseEvent *me = (QGraphicsSceneMouseEvent*) e;
@@ -140,12 +150,10 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 	{
 	case QEvent::GraphicsSceneMousePress:
 	{
-
             switch ((int) me->button())
             {
                 case Qt::LeftButton:
                 {
-
                     QGraphicsItem *item = itemAt(me->scenePos());
                   // bool itemPanelDisplayed = true;
                     if (item && item->type() == QNEPort::Type)
