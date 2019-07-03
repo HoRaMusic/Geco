@@ -23,7 +23,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
-The graphical nodes editor is inspired by a STANISLAW ADASZEWSKI software  https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
+The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.
+https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
 */
 
 #include <QtWidgets>
