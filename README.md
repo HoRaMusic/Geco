@@ -1,14 +1,21 @@
 # Geco
 VCV plugin Maker
 
+
+
+
 IMPORTANT:
 
-Uncomment the matching line to build the free or full version in "Soures/qnemainwindow.h" line 45 :
+Geco is a work on progress, some blocks are obsolet:
 
-```
-#define VERSION 1 // uncomment for full version
-//#define VERSION 0 // uncomment for free version
-```
+- wavetable (use too much CPU, don't work on mac), the wave table object will be completly change to offer antialiasing and use   
+  "waveedit" files http://synthtech.com/waveedit/.
+- stringMux, stringLeft and stringPack are not tested for V1.0 yet and has to be modified to use less CPU.
+- Geco can only create plugins code for rack V1.x
+- Currently Geco do not generate the manifest so you have to write it manually.
+
+
+
 
 BUILD: 
 
@@ -34,7 +41,11 @@ TEST:
 
 RELEASE/DEPLOY ON WINDOWS:
 
-On final release the windows deploy can be automated by this build setting: 
+Run the win-build-script.bat
+
+or
+
+The windows deploy can normally be automated by this build setting: 
 
 ![alt text](https://github.com/HoRaMusic/Geco/blob/master/winDeploy.png)
 
