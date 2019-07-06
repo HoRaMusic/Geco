@@ -1,11 +1,11 @@
 # Geco
-VCV plugin Maker
+VCV Plugin Maker
 
 
 
 IMPORTANT:
 
-Geco is a work on progress, some blocks are obsolet:
+Geco is a work on progress, some blocks are obsolete:
 
 - wavetable (use too much CPU, don't work on mac), the wave table object will be completly change to offer antialiasing and use   
   "waveedit" files http://synthtech.com/waveedit/.
@@ -16,7 +16,7 @@ Geco is a work on progress, some blocks are obsolet:
 
 
 
-BUILD: 
+BUILD:
 
 - Add these files into a folder named "qnodeseditor"
 
@@ -41,15 +41,16 @@ TEST:
 RELEASE/DEPLOY:
 
  win:
- Run the win-build-script.bat
+ 1. Open project folder in terminal  
+ 2. Run ```BuildScripts/build-win.bat```  
 
- mac:
- run ./osx-build-script.sh
- get .dmg files in GecoBuilds/osx/
+ mac:  
+ 1. Open project folder in terminal  
+ 2. Run ```BuildScripts/build-osx.sh```  
+ get .dmg files in GecoBuilds/osx/  
 
 
 DEPENDENCIES:
 
- The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.
+ The graphical nodes editor use a STANISLAW ADASZEWSKI software as a work base (widely modified) for the nodes editor UI.  
  https://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
-
