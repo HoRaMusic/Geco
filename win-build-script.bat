@@ -2,8 +2,8 @@ REM DATE=`date +%Y-%m-%d`
 
 For /f "tokens=2-4 delims=/ " %%a in ('date /t') do (set mydate=%%c-%%a-%%b)
 
-set QTDIR=C:\Qt\Qt5.8.0\5.8\mingw53_32\bin
-set TOOLS=C:\Qt\Qt5.8.0\Tools\mingw530_32\bin
+set QTDIR=C:\Qt\5.6\mingw49_32\bin-script
+set TOOLS=C:\Qt\Tools\mingw492_32\bin
 
 echo %QTDIR%
 

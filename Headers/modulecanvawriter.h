@@ -12,7 +12,7 @@ public:
     void writeModuleStruct(QVector<Controllerstore*> &controllerVec, QString pluginName);
     void writeStepFunctionCanva();
     void writeWidgetDeclar( QVector<Controllerstore*> &controllerVec, QString panelWidth, QString panelName, QString pluginName);
-    void writeModuleModel(QString IDName, QString module_name, QString manufacturer, QString tags);
+    void writeModuleModel(QString module_name);
     QFile* canvaFile();
 private:
     QString moduleFilename;

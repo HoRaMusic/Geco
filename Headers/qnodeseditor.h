@@ -27,12 +27,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define QNODESEDITOR_H
 
 #include <QObject>
-
+#include <QRubberBand>
 class QGraphicsScene;
 class QNEConnection;
 class QGraphicsItem;
 class QPointF;
 class QNEBlock;
+class QNEPort;
+
 
 class QNodesEditor : public QObject
 {
@@ -50,6 +52,7 @@ public:
     void addSpinBoxI(QString name, int limitMin, int limitMax, int param_i, int minScale, QString defaultValue);
     void addTextEdit(QString name, QString param_s, QString defaultValue);
     void propActive(bool p_active);
+    void createConn(QNEPort *p1, QNEPort *p2);
     void controlPressed(bool _CtrlPressed);
     bool isPropActive();
     void propVisible(bool isVisible);
@@ -64,6 +67,8 @@ private:
     bool propMenuVisible;
     bool ctrlPressed;
     bool mouseOverPanel;
+    QRubberBand *rubberBand;
+    QPoint origin;
 	// QNEBlock *selBlock;
 };
 

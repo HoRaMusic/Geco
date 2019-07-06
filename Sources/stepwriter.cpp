@@ -460,7 +460,7 @@ void StepWriter::fillStepFunction()
     // puis on charge le contenu de step au bon endroit dans une stringlist (newFileContent).
     QStringList newFileContent;
     QString includeLine;
-    QString searchStepString("::step() {");
+    QString searchStepString("::process(const ProcessArgs &args) {");
     QString searchStructString("struct ");
 
 
@@ -489,7 +489,7 @@ void StepWriter::fillStepFunction()
         }
         if (followerUsed == true && includeFollowerWrited == false)
         {
-            newFileContent.append("#include \"dsp/filter.hpp\"");
+            //newFileContent.append("#include \"dsp/filter.hpp\"");
             includeFollowerWrited = true;
         }
         if ((vultUsed == true || followerUsed == true || samplerateUsed == true) && getSampleRateWrited == false)
@@ -499,7 +499,7 @@ void StepWriter::fillStepFunction()
         }
         if (digitalDSPUsed == true && includeDigitalDSPWrited == false)
         {
-            newFileContent.append("#include \"dsp/digital.hpp\" ");
+            //newFileContent.append("#include \"dsp/digital.hpp\" ");
             includeDigitalDSPWrited = true;
         }
 
@@ -512,7 +512,7 @@ void StepWriter::fillStepFunction()
             if (jsonUsed == true)
             {
 
-                newFileContent.append("\n    json_t *toJson() override {\n        json_t *rootJ = json_object();\n");
+                newFileContent.append("\n    json_t *dataToJson() override {\n        json_t *rootJ = json_object();\n");
                 for(int b = 0; b < json_bool.size(); b++)
                 {
                     QString varName = json_bool.at(b);
@@ -531,7 +531,7 @@ void StepWriter::fillStepFunction()
                 newFileContent.append("\n        return rootJ;\n    }");
 
 
-                newFileContent.append("    void fromJson(json_t *rootJ) override {\n");
+                newFileContent.append("    void dataFromJson(json_t *rootJ) override {\n");
                 for(int b = 0; b < json_bool.size(); b++)
                 {
                     QString varName = json_bool.at(b);
@@ -571,7 +571,7 @@ void StepWriter::fillStepFunction()
                 newFileContent.append("    " + module_name + " *module;");
                 newFileContent.append("    std::shared_ptr<Font> font;");
                 newFileContent.append("    " + displayStructNames.at(j) + "_" + module_name + " () {");
-                newFileContent.append("    font = Font::load(assetPlugin(plugin, \"res/" + fontName + "\"));");
+                newFileContent.append("    font = APP->window->loadFont(asset::plugin(pluginInstance, \"res/" + fontName + "\"));");
                 newFileContent.append("    }");
                 newFileContent.append("    void updateLine1(NVGcontext *vg, Vec pos, NVGcolor DMDtextColor, char* lineMessage1) {");
                 newFileContent.append("    nvgFontSize(vg, " + textSize + ");");
@@ -588,8 +588,10 @@ void StepWriter::fillStepFunction()
                 newFileContent.append("    nvgText(vg, pos.x, pos.y, lineMessage2, NULL);");
                 newFileContent.append("    }");
                 newFileContent.append("    void draw(NVGcontext *vg) override {");
-                newFileContent.append("    updateLine1(vg, Vec( 5, 5), nvgRGB(0x08, 0x08, 0x08), module->" + displayStructNames.at(j) + "_" + module_name + "_lineMessage1);");
-                newFileContent.append("    updateLine2(vg, Vec(  5, (" + textSize + "+" + textSize +"/2"+")), nvgRGB(0x08, 0x08, 0x08), 20, module->" + displayStructNames.at(j) + "_" + module_name + "_lineMessage2);");
+                newFileContent.append("    if(module){");
+                newFileContent.append("      updateLine1(vg, Vec( 5, 5), nvgRGB(0x08, 0x08, 0x08), module->" + displayStructNames.at(j) + "_" + module_name + "_lineMessage1);");
+                newFileContent.append("      updateLine2(vg, Vec(  5, (" + textSize + "+" + textSize +"/2"+")), nvgRGB(0x08, 0x08, 0x08), 20, module->" + displayStructNames.at(j) + "_" + module_name + "_lineMessage2);");
+                newFileContent.append("     }");
                 newFileContent.append("    }");
                 newFileContent.append("};");
             }
@@ -705,7 +707,7 @@ QString StepWriter::sampleRateInstruction(QNEBlock *currentBlock)
     QVector<QNEPort*> ports = currentBlock->ports();
     QString input_name = ports.at(2)->portName();
     QString outputPortName = ports.at(3)->portName();
-    instruction = "    float " + input_name + "_" + outputPortName + " = engineGetSampleRate();";
+    instruction = "    float " + input_name + "_" + outputPortName + " = args.sampleRate;";
     return instruction;
 }
 QString StepWriter::toJsonBoolInstruction(QNEBlock *currentBlock)
@@ -992,7 +994,7 @@ QString StepWriter::envInstruction(QNEBlock *currentBlock)
     instructions.append("    " + varName + ".process(fabs(" + inputsSums.at(0) + "));\n");
     instructions.append("    float " + outputName + " = " + varName + ".peak();\n");
     QString instruction = instructions.at(0) + instructions.at(1) + instructions.at(2) + instructions.at(3);
-    structInstructions.append("    PeakFilter " + varName + ";\n");
+    structInstructions.append("    dsp::PeakFilter " + varName + ";\n");
     return instruction;
 }
 
@@ -1082,7 +1084,7 @@ QString StepWriter::inputInstruction(QNEBlock *currentBlock)
     QVector<QNEPort*> ports = currentBlock->ports();
     QString input_name = ports.at(2)->portName();
     QString outputPortName = ports.at(5)->portName();
-    instruction = "    float " + input_name + "_" + outputPortName + " = inputs[" + input_name + "].value;";
+    instruction = "    float " + input_name + "_" + outputPortName + " = inputs[" + input_name + "].getVoltage();";
     return instruction;
 }
 QString StepWriter::numConverterInstruction(QNEBlock *currentBlock, int type)
@@ -1201,7 +1203,7 @@ QString StepWriter::controllerInstruction(QNEBlock *currentBlock)
     {
         outputPortName = ports.at(8)->portName();
     }
-    instruction = "    float " +  param_name + "_" + outputPortName + " = params[" + param_name + "].value;";
+    instruction = "    float " +  param_name + "_" + outputPortName + " = params[" + param_name + "].getValue();";
     return instruction;
 }
 QString StepWriter::ledInstruction(QNEBlock *currentBlock)
@@ -1445,7 +1447,7 @@ QString StepWriter::outputInstruction(QNEBlock *currentBlock)
             output_name = port->portName();
         }
     }
-    instruction = "    outputs[" + output_name + "].value = " + inputsSum + ";" ;
+    instruction = "    outputs[" + output_name + "].setVoltage ( " + inputsSum + ");" ;
     return instruction;
 }
 QString StepWriter::extClassInstruction(QNEBlock *currentBlock)
@@ -1799,7 +1801,7 @@ QString StepWriter::counterInstruction(QNEBlock *currentBlock)
 
     QString instructions = instruction.at(0) + instruction.at(1) + instruction.at(2) + instruction.at(3) + instruction.at(4) + instruction.at(5);
     structInstructions.append("    int " + object_name + "_currentCount" + " = 0;\n");
-    structInstructions.append("    SchmittTrigger clockTrigger" + object_name  + ";\n");
+    structInstructions.append("    dsp::SchmittTrigger clockTrigger" + object_name  + ";\n");
     return instructions;
 }
 
@@ -2356,7 +2358,7 @@ QString StepWriter::clockInstruction(QNEBlock *currentBlock)
     QString wasReset = object_name + "_wasReset";
     instructions.append("    bool " + nextStep + " = false;\n");
     instructions.append("    float " + clockTime + " = powf(2.0, " + inputsSums.at(0) + ");\n");
-    instructions.append("    " + phase + " += " + clockTime + "/engineGetSampleRate();\n");
+    instructions.append("    " + phase + " += " + clockTime + "/args.sampleRate;\n");
     if (reset == "0")
     {
         instructions.append("    if ("  + phase + "  != 0)\n    {\n");

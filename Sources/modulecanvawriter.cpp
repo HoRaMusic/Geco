@@ -55,7 +55,13 @@ void ModuleCanvaWriter::writeModuleStruct(QVector<Controllerstore*> &controllerV
     for( int i = 0; i< Qv->size(); i++)
     {
          Controllerstore *control_ = Qv->at(i);
-
+         QString cName = control_->controller_name();
+         QString pName = control_->param_name();
+         QString xPos = control_->x_pos();
+         QString yPos = control_->y_pos();
+         QString minVal = control_->low_value();
+         QString maxVal = control_->high_value();
+         QString defaultVal = control_->default_value();
          if (control_->type() == "knob" || control_->type() == "button" || control_->type() == "switch" || control_->type() == "rotary_switch")
          {
              if (param == false)
@@ -145,43 +151,91 @@ void ModuleCanvaWriter::writeModuleStruct(QVector<Controllerstore*> &controllerV
         TStream << "        NUM_LIGHTS " << endl;
         TStream << "    };" << endl;
     }
-    if (screenUsed == false)
+  /*  if (screenUsed == false)
     {
         TStream << "    " + moduleName + "();" << endl;
     }
     else
     {
         TStream << "    " + moduleName + "() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}" << endl;
-    }
-    TStream << "    void step()override;" << endl;
-    TStream << "};\n" << endl;
+    }*/
+    TStream << "    void process(const ProcessArgs &args)override;" << endl;
 
-    if (screenUsed == false)
-    {
-        TStream <<moduleName + "::" + moduleName + "() {" << endl;
+    /*LDrum()
+       {
+           config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+           configParam(kno_158_PARAM, 0.0f, 0.7f, 0.0f);
+           configParam(rot_129_PARAM, 0.0f, 4.0f, 0.0f);
+           configParam(but_101_PARAM, 0.0f, 10.0f, 0.0f);
+           configParam(kno_100_PARAM, 0.0f, 6.0f, 3.0f);
+           configParam(rot_99_PARAM, 0.0f, 4.0f, 0.0f);
+           configParam(LOFI_PARAM, 0.0f, 1.0f, 0.0f);
+       }*/
+
+        TStream <<moduleName + "() {" << endl;
+        TStream << "    config(";
         if (param == true)
         {
-            TStream << "    params.resize(NUM_PARAMS);" << endl;
-        }
-        if (light == true)
-        {
-            TStream << "    lights.resize(NUM_LIGHTS);" << endl;
+            TStream << "NUM_PARAMS";
         }
         if (input == true)
         {
-            TStream << "    inputs.resize(NUM_INPUTS);" << endl;
+            if (param == true)
+            {
+                TStream << ", NUM_INPUTS";
+            }
+            else
+            {
+                TStream << "NUM_INPUTS";
+            }
+
         }
         if (output == true)
         {
-            TStream << "    outputs.resize(NUM_OUTPUTS);" << endl;
+            if (param == true || input == true)
+            {
+                TStream << ", NUM_OUTPUTS";
+            }
+            else
+            {
+                TStream << "NUM_OUTPUTS";
+            }
         }
+        if (light == false)
+        {
+            if (param == true || output == true || input == true)
+            {
+                TStream << ", NUM_LIGHTS";
+            }
+            else
+            {
+                TStream << "NUM_LIGHTS";
+            }
+        }
+        TStream << ");" << endl;
+        for( int i = 0; i< Qv->size(); i++)
+        {
+            Controllerstore *control_ = Qv->at(i);
+            QString cName = control_->controller_name();
+            QString pName = control_->param_name();
+            QString xPos = control_->x_pos();
+            QString yPos = control_->y_pos();
+            QString minVal = control_->low_value();
+            QString maxVal = control_->high_value();
+            QString defaultVal = control_->default_value();
+            if (control_->type() == "rotary_switch" || control_->type() == "knob" || control_->type() == "button" || control_->type() == "switch")
+            {
+                TStream << "    configParam(" + pName + ", " + minVal + ", " + maxVal  + ", " + defaultVal + ");"<< endl;
+            }
+        }
+
         TStream << "}" << endl;
-    }
+        TStream << "};\n" << endl;
 }
 
 void ModuleCanvaWriter::writeStepFunctionCanva()
 {
-    TStream << "void " + moduleName + "::step() {\n\n}" << endl;
+    TStream << "void " + moduleName + "::process(const ProcessArgs &args) {\n\n}" << endl;
 }
 
 void ModuleCanvaWriter::writeWidgetDeclar(QVector<Controllerstore*> &controllerVec, QString panelWidth, QString panelName, QString pluginName)
@@ -190,12 +244,13 @@ void ModuleCanvaWriter::writeWidgetDeclar(QVector<Controllerstore*> &controllerV
      TStream << "struct " + moduleName + "Widget : ModuleWidget {" << endl;
      TStream << "   " + moduleName + "Widget(" + moduleName + " *module);"  << endl;
      TStream << "};\n" << endl;
-     TStream << moduleName + "Widget::" + moduleName + "Widget(" + moduleName + " *module) : ModuleWidget(module) {" << endl;
+     TStream << moduleName + "Widget::" + moduleName + "Widget(" + moduleName + " *module) {" << endl;
+     TStream << "   setModule(module);" << endl;
      TStream << "   box.size = Vec(" + panelWidth + ", 380);" << endl;
      TStream << "   {" << endl;
-     TStream << "       SVGPanel *panel = new SVGPanel();" << endl;
+     TStream << "       SvgPanel *panel = new SvgPanel();" << endl;
      TStream << "       panel->box.size = box.size;" << endl;
-     TStream << "       panel->setBackground(SVG::load(assetPlugin(plugin, \"res/" + panelName + ".svg\")));" << endl;
+     TStream << "       panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, \"res/" + panelName + ".svg\")));" << endl;
      TStream << "       addChild(panel);" << endl;
      TStream << "    }" << endl;
 
@@ -219,7 +274,7 @@ void ModuleCanvaWriter::writeWidgetDeclar(QVector<Controllerstore*> &controllerV
             TStream << "        "+ displayName + "->box.size = Vec(234, 234);" << endl;
             TStream << "        addChild(" + displayName + ");" << endl;
             TStream << "    }" << endl;
-            //TStream << "    addChild(Widget::create<" + cName + ">(Vec(" + control_->x_pos() + "," + control_->y_pos() + ")));" << endl;
+            //TStream << "    addChild(createWidget<" + cName + ">(Vec(" + control_->x_pos() + "," + control_->y_pos() + ")));" << endl;
         }
         if (dpi96 == true)
         {
@@ -232,35 +287,36 @@ void ModuleCanvaWriter::writeWidgetDeclar(QVector<Controllerstore*> &controllerV
         }
         if (control_->type() == "screw")
         {
-            TStream << "    addChild(Widget::create<" + cName + ">(Vec(" + control_->x_pos() + "," + control_->y_pos() + ")));" << endl;
+            TStream << "    addChild(createWidget<" + cName + ">(Vec(" + control_->x_pos() + "," + control_->y_pos() + ")));" << endl;
         }
         else if (control_->type() == "rotary_switch")
         {
-            TStream << "    addParam(ParamWidget::create<" + cName + "_snap>(Vec(" + xPos + "," + yPos + "), module, " + moduleName + "::" + pName + ", " + minVal + ", " + maxVal  + ", " + defaultVal + "));" << endl;
+            TStream << "    addParam(createParam<" + cName + "_snap>(Vec(" + xPos + "," + yPos + "), module, " + moduleName + "::" + pName + "));" << endl;
         }
         else if (control_->type() == "knob" || control_->type() == "button" || control_->type() == "switch")
         {
-            TStream << "    addParam(ParamWidget::create<" + cName + ">(Vec(" + xPos + "," + yPos + "), module, " + moduleName + "::" + pName + ", " + minVal + ", " + maxVal  + ", " + defaultVal + "));" << endl;
+            TStream << "    addParam(createParam<" + cName + ">(Vec(" + xPos + "," + yPos + "), module, " + moduleName + "::" + pName + "));" << endl;
         }
         else if (control_->type() == "input")
         {
-            TStream << "    addInput(Port::create<" + cName + ">(Vec(" + xPos + "," + yPos + "), Port::INPUT, module, " + moduleName + "::" + pName + "));" << endl;
+            TStream << "    addInput(createInput<" + cName + ">(Vec(" + xPos + "," + yPos + "), module, " + moduleName + "::" + pName + "));" << endl;
         }
         else if (control_->type() == "output")
         {
-            TStream << "    addOutput(Port::create<" + cName + ">(Vec(" + xPos + "," + yPos + "), Port::OUTPUT, module, " + moduleName + "::" + pName + "));" << endl;
+            TStream << "    addOutput(createOutput<" + cName + ">(Vec(" + xPos + "," + yPos + "), module, " + moduleName + "::" + pName + "));" << endl;
         }
         else if (control_->type() == "led")
         {
-            TStream << "    addChild(" + cName + ">(Vec(" + xPos + "," + yPos + "), module, " +  moduleName + "::" + pName + "));" << endl;
+
+            TStream << "    addChild(createLight<" + cName + ">(Vec(" + xPos + "," + yPos + "), module, " +  moduleName + "::" + pName + "));" << endl;
         }
      }
      TStream << "}" << endl;
 }
 
-void ModuleCanvaWriter::writeModuleModel(QString IDName, QString module_name, QString manufacturer, QString tags)
+void ModuleCanvaWriter::writeModuleModel(QString module_name)
 {
-    TStream << "Model *model"  + moduleName + " = Model::create<" + moduleName + "," +  moduleName + "Widget>(\"" + manufacturer + "\", \"" + IDName + "\", \"" + module_name + "\", " + tags + ");" << endl;
+    TStream << "Model *model"  + moduleName + " = createModel<" + moduleName + "," +  moduleName + "Widget>(\"" + module_name + "\");" << endl;
     moduleFile.close();
 }
 //Model *modelFrequencyDivider = Model::create<FrequencyDivider, FrequencyDividerWidget>("Hora", "Frequency divider", "Frequency Divider", CLOCK_MODULATOR_TAG);
