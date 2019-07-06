@@ -5,5 +5,9 @@ build-linux/
 GecoBuilds/win
 GecoBuilds/mac
 GecoBuilds/linux
+GecoBuild/osx
 
 *.user
+*.pro.user.*
+
+.qmake.stash
