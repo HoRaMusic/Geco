@@ -2,8 +2,9 @@ build-osx/
 build-win/
 build-linux/
 
-GecoBuilds/win
-GecoBuilds/mac
-GecoBuilds/linux
+GecoBuilds/win/
+GecoBuilds/mac/
+GecoBuilds/linux/
+GecoBuilds/osx/
 
 *.user

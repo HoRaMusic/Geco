@@ -1,5 +1,5 @@
                    
-Copyright (C) 2007 Raphaël Hoffman. <http://www.hora-music.be/>
+Copyright (C) 2019 RaphaÃ«l Hoffman. <http://www.hora-music.be/>
 
 Geco is under GNU GENERAL PUBLIC LICENSE version 3
 
