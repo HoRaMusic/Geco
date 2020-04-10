@@ -97,7 +97,7 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
     propToolButtonAction->setDefaultWidget(propToolButton);
     propToolButton->setToolTip("show properties('p' key)");
     mainToolBar->addAction(propToolButtonAction);
-    /*propOutAct->setCheckable(true);
+    propOutAct->setCheckable(true);
     propOutAct->setStatusTip(tr("set property visibility"));*/
     //connect(propToolButtonAction, SIGNAL(triggered()), this, SLOT(setPropVisible()));
     //mainToolBar->addAction(propToolButtonAction);
@@ -669,7 +669,7 @@ void QNEMainWindow::exportCode()
                          //QString gg = QString::number(x);
                          QString gg = pName;
                          QByteArray s = gg.toUtf8();
-                         qDebug(s);
+                         qDebug() << s;
                          foreach(QGraphicsItem *pItem, panel_editor_scene->items())
                          {
                              QString param_name = pItem->toolTip();
@@ -777,7 +777,8 @@ void QNEMainWindow::displayOnPanel()
                     }
                     if (isScreen == true)
                     {
-                        QNEPort *port = (QNEPort*) port_;
+                        // unused
+                        // QNEPort *port = (QNEPort*) port_;
 
                             QVector<QNEPort*> ports = BL->ports();
                             QString object_name = ports.at(5)->portName();
@@ -786,7 +787,7 @@ void QNEMainWindow::displayOnPanel()
                             QString green = ports.at(7)->portName();
                             QString blue = ports.at(8)->portName();
                             QByteArray s = "current font OK = " + object_name.toUtf8();
-                            qDebug(s);
+                            qDebug() << s;
                             textFont = object_name;
                             textSize = size;
                             textColorR = red;

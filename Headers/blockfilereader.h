@@ -17,6 +17,7 @@ class FileReader: public QFile
     QFileInfoList detectFiles(const QString &dirname);
     QStringList readPropertiesLine(const QString &fileName, const QString &dirName);
 private :
-    QTextStream *stream;
+    // unused field
+    // QTextStream *stream;
 };
 

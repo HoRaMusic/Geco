@@ -18,6 +18,7 @@
 #include <QDockWidget>
 #include <QDesktopWidget>
 #include "Headers/customdialog.h"
+#include <QDebug>
 
 QNEBlock::QNEBlock(int uniqueBlockID, QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
@@ -184,7 +185,8 @@ void QNEBlock::addPropertyFromClone(QString name, int type, float minValue, floa
                    QString bi = QString::number(blockID);
                    QString varName = substring + "_" + bi + "_PARAM";
                    string varNameC = varName.toStdString();
-                   string *varName_s = new string(varNameC);
+                   // unused
+                   // string *varName_s = new string(varNameC);
                    param_s.append(vs);
            }
            else if ( block_name == "module_input")
@@ -193,7 +195,8 @@ void QNEBlock::addPropertyFromClone(QString name, int type, float minValue, floa
                    QString bi = QString::number(blockID);
                    QString varName = substring + "_" + bi + "_INPUT";
                    string varNameC = varName.toStdString();
-                   string *varName_s = new string(varNameC);
+                   // unused
+                   // string *varName_s = new string(varNameC);
                    param_s.append(vs);
            }
            else if ( block_name == "module_output")
@@ -202,7 +205,8 @@ void QNEBlock::addPropertyFromClone(QString name, int type, float minValue, floa
                    QString bi = QString::number(blockID);
                    QString varName = substring  + "_" +  bi + "_OUTPUT";
                    string varNameC = varName.toStdString();
-                   string *varName_s = new string(varNameC);
+                   // unused
+                   // string *varName_s = new string(varNameC);
                    param_s.append(vs);
            }
            else if ( block_name == "led")
@@ -211,7 +215,8 @@ void QNEBlock::addPropertyFromClone(QString name, int type, float minValue, floa
                    QString bi = QString::number(blockID);
                    QString varName = substring  + "_" +  bi + "_LIGHT";
                    string varNameC = varName.toStdString();
-                   string *varName_s = new string(varNameC);
+                   // unused
+                   // string *varName_s = new string(varNameC);
                    param_s.append(vs);
            }
            else
@@ -220,7 +225,8 @@ void QNEBlock::addPropertyFromClone(QString name, int type, float minValue, floa
                QString bi = QString::number(blockID);
                QString varName = substring + bi;
                string varNameC = varName.toStdString();
-               string *varName_s = new string(varNameC);
+               // unused
+               // string *varName_s = new string(varNameC);
                param_s.append(vs);
            }
        }
@@ -1066,8 +1072,8 @@ QNEPort* QNEBlock::addPortOnLoading(const QString &name, bool isOutput, int flag
         QString ss =  QString::fromStdString(*hh) ;
         QByteArray s = ss.toUtf8();
         QByteArray j = jj.toUtf8();
-        qDebug(s);
-        qDebug(j);
+        qDebug() << s;
+        qDebug() << j;
         if (hasToBeSet.at(numberOfCreatedPorts - 1))
         {
             port->setRed();

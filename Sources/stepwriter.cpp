@@ -1,4 +1,5 @@
 #include "Headers/stepwriter.h"
+#include <QDebug>
 
 StepWriter::StepWriter(QObject *parent):
      QObject(parent)
@@ -696,7 +697,7 @@ void StepWriter::fillStepFunction()
             QFile::copy(fileDirPath, newTableFilePath);
             QString gg = newTableFilePath;
             QByteArray s = "rrrrrr" + gg.toUtf8();
-            qDebug(s);
+            qDebug() << s;
         }
     }
 }
@@ -1455,7 +1456,8 @@ QString StepWriter::extClassInstruction(QNEBlock *currentBlock)
     QVector<QString> instruction;
     QString params = "";
     QVector<QNEPort*> ports = currentBlock->ports();
-    int numberOfOutputs = currentBlock->numberOfOutputs();
+    // unused
+    // int numberOfOutputs = currentBlock->numberOfOutputs();
     int nO = 0;
     //int numberOfOutputs = 1;
     QVector<QString> inputsSums;

@@ -82,14 +82,14 @@ void QNodesEditor::propActive(bool p_active)
         }
     }
 }
-void QNodesEditor::addSpinBoxI(QString name, int limitMin, int limitMax, int param_i, int minScale, QString defaultValue)
-{
+//void QNodesEditor::addSpinBoxI(QString name, int limitMin, int limitMax, int param_i, int minScale, QString defaultValue)
+//{
 
-}
-void QNodesEditor::addTextEdit(QString name, QString param_s, QString defaultValue)
-{
+//}
+//void QNodesEditor::addTextEdit(QString name, QString param_s, QString defaultValue)
+//{
 
-}
+//}
 void  QNodesEditor::createConn(QNEPort *p1, QNEPort *p2)
 {
     conn = new QNEConnection(0);
@@ -245,7 +245,8 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 	}
 	case QEvent::GraphicsSceneMouseMove:
     {
-        QGraphicsItem *item = itemAt(me->scenePos());
+        // removed unused:
+        // QGraphicsItem *item = itemAt(me->scenePos());
 
 		if (conn)
 		{

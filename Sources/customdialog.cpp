@@ -855,6 +855,8 @@ int CustomDialog::addCheckPrev(QString caption, bool *checked,
   case(DLG_GRPBOX):     wid = e.grpBox;     break;
   case(DLG_COLOR):      wid = e.btnColor;   break;
   case(DLG_TEXTEDIT):   wid = e.textEdit;   break;
+  // added default
+  default: break;
   }
 
   switch(chkBehav)
@@ -914,6 +916,16 @@ int CustomDialog::addAutoCompletePrev(QStringList wordList, bool caseSensitive)
   return elements.size();
 }
 
+// ---
+// set stylesheet and font bold flag template function
+template<typename T>
+void __SetStyleSheetAndBold(T* object, const QString& styleStr, const bool& bold)
+{
+    object->setStyleSheet(styleStr);
+    QFont font = object->font();
+    font.setBold(bold);
+    object->setFont(font);
+}
 
 //------------------------
 //-- Sets the style sheet to the element at the given index in the elements vector.
@@ -923,14 +935,14 @@ int CustomDialog::addAutoCompletePrev(QStringList wordList, bool caseSensitive)
 //--             eg: "color: rgb(0, 0, 0); background-color: rgba(255, 255, 255, 0);"
 //-- @ bold    = if true: the font for the element will be made bold
 
-bool CustomDialog::setStyleElem(int idx, string styleStr, bool bold)
+bool CustomDialog::setStyleElem(size_t idx, string styleStr, bool bold)
 {
-  if(idx >= elements.size() || idx < 0)
+  // does not accept negative idx anymore so '|| idx < 0' is removed
+  if(idx >= elements.size())
     return false;
 
   DialogElement &e = elements[idx];
   QString styleQStr = (QString)styleStr.c_str();
-
 
   if(e.extraChkAdded)
     e.chkExtra->setStyleSheet(styleQStr);
@@ -940,22 +952,29 @@ bool CustomDialog::setStyleElem(int idx, string styleStr, bool bold)
      || e.type == DLG_COLOR)
     e.label->setStyleSheet(styleQStr);
 
+  // added font bold flag
+
   switch (e.type)
   {
-    case(DLG_CHECKBOX  ):    e.chkBox->setStyleSheet(styleQStr);     break;
+    case(DLG_CHECKBOX  ):    __SetStyleSheetAndBold(e.chkBox,styleQStr,bold);   break;  // no font settings in check box
     case(DLG_LINEEDIT  ):
-    case(DLG_FLOATEDIT ):    e.lineEdit->setStyleSheet(styleQStr);   break;
-    case(DLG_SPINBOX   ):    e.spnBox->setStyleSheet(styleQStr);     break;
-    case(DLG_DBLSPINBOX):    e.dblSpnBox->setStyleSheet(styleQStr);  break;
-    case(DLG_COMBOBOX  ):    e.cmbBox->setStyleSheet(styleQStr);     break;
+    case(DLG_FLOATEDIT ):    __SetStyleSheetAndBold(e.lineEdit,styleQStr,bold);   break;
+    case(DLG_SPINBOX   ):    __SetStyleSheetAndBold(e.spnBox,styleQStr,bold);     break;
+    case(DLG_DBLSPINBOX):    __SetStyleSheetAndBold(e.dblSpnBox,styleQStr,bold);  break;
+    case(DLG_COMBOBOX  ):    __SetStyleSheetAndBold(e.cmbBox,styleQStr,bold);     break;
     case(DLG_RADIOGRP  ):
     {
       for(int i=0; i<(int)e.radBtn.size(); i++)
-        e.radBtn[i]->setStyleSheet(styleQStr);
+      {
+        __SetStyleSheetAndBold(e.radBtn[i],styleQStr,bold);
+      }
     } break;
     case(DLG_COLOR     ):    break;
-    case(DLG_GRPBOX    ):    e.grpBox->setStyleSheet(styleQStr);     break;
-    case(DLG_TEXTEDIT  ):    e.textEdit->setStyleSheet(styleQStr);     break;
+    case(DLG_GRPBOX    ):    __SetStyleSheetAndBold(e.grpBox,styleQStr,bold);   break;
+    case(DLG_TEXTEDIT  ):    __SetStyleSheetAndBold(e.textEdit,styleQStr,bold);    break;
+
+    // added default
+    default: break;
   }
 
   return true;
@@ -970,7 +989,11 @@ bool CustomDialog::setStyleElem(int idx, string styleStr, bool bold)
 
 void CustomDialog::setStylePrev(string styleStr, bool bold)
 {
-  setStyleElem(elements.size()-1, styleStr, bold);
+    // index range check moved here:
+    if (!elements.size())
+        return;
+
+    setStyleElem(elements.size()-1, styleStr, bold);
 }
 
 
@@ -980,13 +1003,17 @@ void CustomDialog::setStylePrev(string styleStr, bool bold)
 //-- @ idx     = the index of the element to apply the stylesheet to
 //-- @ enabled = if true: will enable, if false: will disable
 
-bool CustomDialog::setEnabledElem(int idx, bool enabled)
+bool CustomDialog::setEnabledElem(size_t idx, bool enabled)
 {
-  if(idx >= elements.size() || idx < 0)
+    // does not accept negative idx anymore so '|| idx < 0' is removed
+  if(idx >= elements.size())
     return false;
 
   DialogElement &e = elements[idx];
   e.layout->setEnabled(enabled);
+
+  // added missing return statement:
+  return true;
 }
 
 
@@ -996,6 +1023,10 @@ bool CustomDialog::setEnabledElem(int idx, bool enabled)
 
 void CustomDialog::setEnabledPrev(bool enabled)
 {
+    // range check moved here:
+    if (!elements.size())
+        return;
+
   setEnabledElem(elements.size()-1, enabled);
 }
 
@@ -1096,7 +1127,11 @@ void CustomDialog::customBtnAccept()
       if(e.textEdit->isReadOnly() == false)
         *e.returnString = e.textEdit->toPlainText().toStdString();
       break;
-    }
+
+      // added default
+     default:
+      break;
+    }    
 
   }
 

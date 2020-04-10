@@ -49,8 +49,9 @@ public:
 	void save(QDataStream &ds);
 	void load(QDataStream &ds);
     void addSpinBoxF(QString name, float limitMin, float limitMax, float param_f, int decimal, int minScale , QString defaultValue);
-    void addSpinBoxI(QString name, int limitMin, int limitMax, int param_i, int minScale, QString defaultValue);
-    void addTextEdit(QString name, QString param_s, QString defaultValue);
+    // removed unused functions:
+//    void addSpinBoxI(QString name, int limitMin, int limitMax, int param_i, int minScale, QString defaultValue);
+//    void addTextEdit(QString name, QString param_s, QString defaultValue);
     void propActive(bool p_active);
     void createConn(QNEPort *p1, QNEPort *p2);
     void controlPressed(bool _CtrlPressed);

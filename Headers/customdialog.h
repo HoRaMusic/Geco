@@ -251,10 +251,10 @@ public:     //## METHODS:
 
   int addCheckPrev(QString caption, bool *checked, chkbehav chkBeh, bool removeLabel, QString tooltip="");
   int addAutoCompletePrev(QStringList wordList, bool caseSensitive=false);
-  bool setStyleElem(int idx, string styleStr, bool bold=false);
+  bool setStyleElem(size_t idx, string styleStr, bool bold=false);
   void setStylePrev(string styleStr, bool bold=false);
 
-  bool setEnabledElem(int idx, bool enabled);
+  bool setEnabledElem(size_t idx, bool enabled);
   void setEnabledPrev(bool enabled);
   void setEnabledAll(bool enabled);
 
